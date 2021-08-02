@@ -12,6 +12,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+// lmao the big chungus funny funny haha
 
 public class AxolotlStatueBlock extends StatueMain{
       public AxolotlStatueBlock() {
