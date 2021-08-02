@@ -24,10 +24,9 @@ public class AxolotlStatueBlock extends StatueMain{
 	static        VoxelShape                     VOXEL_SHAPE_NORTH;
 	static        VoxelShape                     VOXEL_SHAPE_WEST;
   
-	//testing
-	// im also testing
-	//further testing
+	
 	//even further testing
+	//testamundo
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
 	{
 	    Direction facing = state.get(FACING);
