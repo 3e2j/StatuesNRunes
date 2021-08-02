@@ -12,6 +12,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+//right so im trying to erase this
 
 public class AxolotlStatueBlock extends StatueMain{
       public AxolotlStatueBlock() {
@@ -23,7 +24,7 @@ public class AxolotlStatueBlock extends StatueMain{
       }
 	static        VoxelShape                     VOXEL_SHAPE_NORTH;
 	static        VoxelShape                     VOXEL_SHAPE_WEST;
-  
+  //indeed
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
 	{
 	    Direction facing = state.get(FACING);
