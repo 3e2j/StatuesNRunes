@@ -1,0 +1,30 @@
+how to add.
+
+Save files as you go through
+
+1. Add model file
+2. Edit Model file to include the particle line (copy paste from others)
+3. Add texture file
+
+
+4. Copy paste the item model from models/item that best suits the mob.
+They have been translated already (How you see them in your inv, on the ground ect...).
+Ie:   Chicken for 1 block tall mobs
+      Creeper for 2 block... ect....
+You will still need to adjust it in game to get accurate results.
+5. change the parent inside the file
+6. Rename the file along with others down this checklist to match with the other mobs (just follow the pattern).
+7. in the 'lang' folder you'll find 'en_us.json'
+8. Add a line with a comma and change the type to the mob
+9. Copy paste a blockstate file, rename and change insides as per usual.
+
+10. In the main java\net\runedar\snr open SnRClient and add the statue to the render layers (don't forget the comma.)
+11. under \blocks Copy paste one of the files (this file includes Voxel/hitbox stuff, so choose the most similar statue size)
+12. Change the 2 lines of the 'mob' inside the file; ie, CreeperStatueBlock -> AxolotylStatueBlock
+
+13. Under Registry, copy paste the specific contents inside MobBlocks and MobItems that match with the mob's name,
+the pattern should be obvious enough (dont forget commas when necessary)
+14. Make sure resources\assets\statuesnrunes\data\statuesnrunes\loot_tables folder is also changed
+
+
+15. In game you can mess with the Voxel/Hitbox shape and mess around with inventory viewing.

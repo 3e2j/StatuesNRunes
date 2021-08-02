@@ -1,0 +1,8 @@
+{
+      "variants": {
+          "facing=north": { "model": "statuesnrunes:block/axolotl_statue" , "y" : 0},
+          "facing=east": { "model": "statuesnrunes:block/axolotl_statue" , "y" : 90},
+          "facing=south": { "model": "statuesnrunes:block/axolotl_statue" , "y" : 180},
+          "facing=west": { "model": "statuesnrunes:block/axolotl_statue" , "y" : 270}
+      }
+  }
