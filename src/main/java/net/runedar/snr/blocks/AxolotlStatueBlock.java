@@ -48,3 +48,4 @@ public class AxolotlStatueBlock extends StatueMain{
 		VOXEL_SHAPE_WEST = VoxelShapes.cuboid(0.1f, 0f, 0.2f, 0.9f, 0.4f, 0.8);
 	}
 }
+//
