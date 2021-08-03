@@ -44,7 +44,7 @@ public class CreeperStatueBlock extends StatueMain{
 	    }
 	}
 	static {
-		VOXEL_SHAPE_NORTH = VoxelShapes.cuboid(0.2f, 0f, 0.1f, 0.8f, 1.75f, 0.9f);
-		VOXEL_SHAPE_WEST = VoxelShapes.cuboid(0.1f, 0f, 0.2f, 0.9f, 1.75f, 0.8);
+		VOXEL_SHAPE_NORTH = VoxelShapes.cuboid(0.2f, 0f, 0.1f, 0.8f, 1.7f, 0.9f);
+		VOXEL_SHAPE_WEST = VoxelShapes.cuboid(0.1f, 0f, 0.2f, 0.9f, 1.7f, 0.8);
 	}
 }
