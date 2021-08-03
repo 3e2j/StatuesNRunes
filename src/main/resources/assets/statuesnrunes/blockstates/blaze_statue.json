@@ -1,0 +1,8 @@
+{
+      "variants": {
+          "facing=north": { "model": "statuesnrunes:block/blaze_statue" , "y" : 0},
+          "facing=east": { "model": "statuesnrunes:block/blaze_statue" , "y" : 90},
+          "facing=south": { "model": "statuesnrunes:block/blaze_statue" , "y" : 180},
+          "facing=west": { "model": "statuesnrunes:block/bloaze_statue" , "y" : 270}
+      }
+  }

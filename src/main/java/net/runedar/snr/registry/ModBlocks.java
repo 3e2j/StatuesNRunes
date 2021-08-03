@@ -15,6 +15,8 @@ public class ModBlocks {
 	      public static final Block CHICKEN_STATUE = new ChickenStatueBlock();
             public static final Block CREEPER_STATUE = new CreeperStatueBlock();
             public static final Block AXOLOTL_STATUE = new AxolotlStatueBlock();
+            public static final Block BLAZE_STATUE = new BlazeStatueBlock();
+            
 
             public static BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY;
 
@@ -30,7 +32,8 @@ public class ModBlocks {
             //statuesOnly
             CHICKEN_STATUE,
             CREEPER_STATUE,
-            AXOLOTL_STATUE
+            AXOLOTL_STATUE,
+            BLAZE_STATUE
 
             ).build(null));
       }
