@@ -30,16 +30,11 @@ public class SteveStatueBlock extends StatueMain{
 	    {
 		  switch (facing)
 		  {
-			case NORTH:
-			    return VOXEL_SHAPE_NORTH;
-			case SOUTH:
-			    return VOXEL_SHAPE_NORTH;
-			case EAST:
-			    return VOXEL_SHAPE_WEST;
-			case WEST:
-			    return VOXEL_SHAPE_WEST;
-			default:
-			    return VOXEL_SHAPE_CUBE;
+			case NORTH:return VOXEL_SHAPE_NORTH;
+			case SOUTH:return VOXEL_SHAPE_NORTH;
+			case EAST:return VOXEL_SHAPE_WEST;
+			case WEST:return VOXEL_SHAPE_WEST;
+			default:return VOXEL_SHAPE_CUBE;
 		  }
 	    }
 	}
