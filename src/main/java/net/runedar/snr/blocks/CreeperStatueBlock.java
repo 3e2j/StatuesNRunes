@@ -28,14 +28,11 @@ public class CreeperStatueBlock extends StatueMain{
 	{
 	    Direction facing = state.get(FACING);
 	    {
-		  switch (facing)
-		  {
-			case NORTH:return VOXEL_SHAPE_NORTH;
-			case SOUTH:return VOXEL_SHAPE_NORTH;
-			case EAST:return VOXEL_SHAPE_WEST;
-			case WEST:return VOXEL_SHAPE_WEST;
-			default:return VOXEL_SHAPE_CUBE;
-		  }
+			return switch (facing) {
+				case NORTH, SOUTH -> VOXEL_SHAPE_NORTH;
+				case EAST, WEST -> VOXEL_SHAPE_WEST;
+				default -> VOXEL_SHAPE_CUBE;
+			};
 	    }
 	}
 	static {
