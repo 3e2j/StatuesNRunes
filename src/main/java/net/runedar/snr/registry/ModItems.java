@@ -8,10 +8,11 @@ import net.minecraft.util.registry.Registry;
 
 public class ModItems {
             //statues
-            public static final Item CHICKEN_STATUE = new BlockItem(ModBlocks.CHICKEN_STATUE, new Item.Settings().group(SnR.TAB));
-            public static final Item CREEPER_STATUE = new BlockItem(ModBlocks.CREEPER_STATUE, new Item.Settings().group(SnR.TAB));
+            //Put in alphebetical order - appears this way in the tab
             public static final Item AXOLOTL_STATUE = new BlockItem(ModBlocks.AXOLOTL_STATUE, new Item.Settings().group(SnR.TAB));
             public static final Item BLAZE_STATUE = new BlockItem(ModBlocks.BLAZE_STATUE, new Item.Settings().group(SnR.TAB));
+            public static final Item CHICKEN_STATUE = new BlockItem(ModBlocks.CHICKEN_STATUE, new Item.Settings().group(SnR.TAB));
+            public static final Item CREEPER_STATUE = new BlockItem(ModBlocks.CREEPER_STATUE, new Item.Settings().group(SnR.TAB));
             public static final Item STEVE_STATUE = new BlockItem(ModBlocks.STEVE_STATUE, new Item.Settings().group(SnR.TAB));
 
       public static void registerItems(){

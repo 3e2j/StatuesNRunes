@@ -39,7 +39,7 @@ public class SteveStatueBlock extends StatueMain{
 	    }
 	}
 	static {
-		VOXEL_SHAPE_NORTH = VoxelShapes.cuboid(0f, 0f, 0.2f, 1f, 2.2f, 0.8f);
-		VOXEL_SHAPE_WEST = VoxelShapes.cuboid(0.2f, 0f, 0f, 0.8f, 2.2f, 1f);	
+		VOXEL_SHAPE_NORTH = VoxelShapes.cuboid(0f, 0f, 0.2f, 1f, 2f, 0.8f);
+		VOXEL_SHAPE_WEST = VoxelShapes.cuboid(0.2f, 0f, 0f, 0.8f, 2f, 1f);	
 	}
 }
