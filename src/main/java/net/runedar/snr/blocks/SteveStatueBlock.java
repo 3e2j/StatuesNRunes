@@ -37,6 +37,7 @@ public class SteveStatueBlock extends StatueMain{
 			default:return VOXEL_SHAPE_CUBE;
 		  }
 	    }
+	    /// Bruh
 	}
 	static {
 		VOXEL_SHAPE_NORTH = VoxelShapes.cuboid(0f, 0f, 0.2f, 1f, 2f, 0.8f);
