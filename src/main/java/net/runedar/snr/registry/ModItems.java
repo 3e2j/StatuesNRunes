@@ -12,6 +12,7 @@ public class ModItems {
             public static final Item CREEPER_STATUE = new BlockItem(ModBlocks.CREEPER_STATUE, new Item.Settings().group(SnR.TAB));
             public static final Item AXOLOTL_STATUE = new BlockItem(ModBlocks.AXOLOTL_STATUE, new Item.Settings().group(SnR.TAB));
             public static final Item BLAZE_STATUE = new BlockItem(ModBlocks.BLAZE_STATUE, new Item.Settings().group(SnR.TAB));
+            public static final Item STEVE_STATUE = new BlockItem(ModBlocks.STEVE_STATUE, new Item.Settings().group(SnR.TAB));
 
       public static void registerItems(){
 
@@ -19,6 +20,7 @@ public class ModItems {
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "creeper_statue"), CREEPER_STATUE);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "axolotl_statue"), AXOLOTL_STATUE);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "blaze_statue"), BLAZE_STATUE);
+            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "steve_statue"), STEVE_STATUE);
 
       }
 }

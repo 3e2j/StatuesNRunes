@@ -18,7 +18,9 @@ public class SnRClient implements ClientModInitializer{
 
             ModBlocks.CHICKEN_STATUE,
             ModBlocks.CREEPER_STATUE,
-            ModBlocks.AXOLOTL_STATUE
+            ModBlocks.AXOLOTL_STATUE,
+            ModBlocks.BLAZE_STATUE,
+            ModBlocks.STEVE_STATUE
             
             );
 
