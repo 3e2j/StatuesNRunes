@@ -13,7 +13,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 
-public class CreeperStatueBlock extends StatueMain{
+public class CreeperStatueBlock extends TallStatue {
       public CreeperStatueBlock() {
       super(FabricBlockSettings.of(Material.STONE)
 	      .strength(1.5f, 0.6f)
@@ -23,7 +23,7 @@ public class CreeperStatueBlock extends StatueMain{
 	}
 	static        VoxelShape                     VOXEL_SHAPE_NORTH;
 	static        VoxelShape                     VOXEL_SHAPE_WEST;
-  
+
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
 	{
 	    Direction facing = state.get(FACING);
