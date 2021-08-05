@@ -3,6 +3,7 @@ package net.runedar.snr.blocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Material;
+import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.sound.BlockSoundGroup;
 
 import net.minecraft.util.math.BlockPos;
@@ -26,7 +27,7 @@ public class CreeperStatueBlock extends TallStatue {
 
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
 	{
-	    Direction facing = state.get(FACING);
+		Direction facing = state.get(FACING);
 	    {
 			return switch (facing) {
 				case NORTH, SOUTH -> VOXEL_SHAPE_NORTH;

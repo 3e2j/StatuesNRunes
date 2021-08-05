@@ -3,17 +3,26 @@ package net.runedar.snr.blocks;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
+
+/* - Append from Hat
+Ripped directly from net.minecraft.block.DoorBlock
+Modified to extend StatueMain and do only the options we need.
+Bugfixes:
+    implemented .getOpposite
+    implemented Creative break code from TallPlantBlock
+ */
+
 
 public abstract class TallStatue extends StatueMain{
     public static final EnumProperty<DoubleBlockHalf> HALF;
@@ -31,6 +40,24 @@ public abstract class TallStatue extends StatueMain{
         } else {
             return doubleBlockHalf == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
         }
+
+    }
+
+    //Destroys a bottom half of a tall double block (such as a plant or a door) without dropping an item when broken in creative.
+    //See Also:
+    //Block.onBreak(World, BlockPos, BlockState, PlayerEntity)
+    protected static void onBreakInCreative(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        DoubleBlockHalf doubleBlockHalf = (DoubleBlockHalf)state.get(HALF);
+        if (doubleBlockHalf == DoubleBlockHalf.UPPER) {
+            BlockPos blockPos = pos.down();
+            BlockState blockState = world.getBlockState(blockPos);
+            if (blockState.isOf(state.getBlock()) && blockState.get(HALF) == DoubleBlockHalf.LOWER) {
+                BlockState blockState2 = blockState.contains(Properties.WATERLOGGED) && (Boolean)blockState.get(Properties.WATERLOGGED) ? Blocks.WATER.getDefaultState() : Blocks.AIR.getDefaultState();
+                world.setBlockState(blockPos, blockState2, Block.NOTIFY_ALL | Block.SKIP_DROPS);
+                world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, blockPos, Block.getRawIdFromState(blockState));
+            }
+        }
+
     }
 
     @Nullable
@@ -62,6 +89,7 @@ public abstract class TallStatue extends StatueMain{
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(HALF, FACING);
     }
+
 
     static {
         HALF = Properties.DOUBLE_BLOCK_HALF;
