@@ -65,20 +65,15 @@ public abstract class TallStatue extends StatueMain{
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         DoubleBlockHalf doubleBlockHalf = state.get(HALF);
         if (!world.isClient)    {
-            NamedScreenHandlerFactory screenHandlerFactory;//With this call the server will request the client to open the appropriate Screenhandler
+            NamedScreenHandlerFactory screenHandlerFactory;
             if (doubleBlockHalf == DoubleBlockHalf.LOWER){
-            //This will call the createScreenHandlerFactory method from BlockWithEntity, which will return our blockEntity casted to
-            //a namedScreenHandlerFactory. If your block class does not extend BlockWithEntity, it needs to implement createScreenHandlerFactory.
                 screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-
-            }else{
+            } else {
                 screenHandlerFactory = state.createScreenHandlerFactory(world, pos.down());
-
-            }
-            if (screenHandlerFactory != null) {
-                //With this call the server will request the client to open the appropriate Screenhandler
-                player.openHandledScreen(screenHandlerFactory);
                 }
+            if (screenHandlerFactory != null) {
+                player.openHandledScreen(screenHandlerFactory);
+            }
         }
         return ActionResult.SUCCESS;
     }

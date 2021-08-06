@@ -1,5 +1,6 @@
 package net.runedar.snr.registry;
 
+import net.minecraft.block.enums.DoubleBlockHalf;
 import net.runedar.snr.SnR;
 import net.runedar.snr.blocks.*;
 import net.runedar.snr.blocks.blockentities.StatueBlockEntity;

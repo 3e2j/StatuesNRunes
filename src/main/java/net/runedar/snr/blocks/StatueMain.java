@@ -98,6 +98,7 @@ public class StatueMain extends BlockWithEntity{
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
     }
+
     static
     {
         FACING = Properties.HORIZONTAL_FACING;
