@@ -27,6 +27,7 @@ public class CreeperStatueBlock extends TallStatue {
 	static        VoxelShape                     VOXEL_SHAPE_WEST;
 	static        VoxelShape                     VOXEL_SHAPE_WESTU;
 
+	@SuppressWarnings("deprecation")
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
 	{
 		Direction facing = state.get(FACING);

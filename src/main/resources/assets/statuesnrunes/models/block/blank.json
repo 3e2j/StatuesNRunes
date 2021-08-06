@@ -1,3 +1,5 @@
 {
-  "parent": ""
+  "textures": {
+    "particle": "block/stone"
+  }
 }
