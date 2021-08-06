@@ -6,6 +6,7 @@ import net.runedar.snr.blocks.AxolotlStatueBlock;
 import net.runedar.snr.blocks.BlazeStatueBlock;
 import net.runedar.snr.blocks.ChickenStatueBlock;
 import net.runedar.snr.blocks.CreeperStatueBlock;
+import net.runedar.snr.blocks.ParrotStatueBlock;
 import net.runedar.snr.blocks.SteveStatueBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
@@ -21,6 +22,7 @@ public class ModBlocks {
             public static final Block AXOLOTL_STATUE = new AxolotlStatueBlock();
             public static final Block BLAZE_STATUE = new BlazeStatueBlock();
             public static final Block STEVE_STATUE = new SteveStatueBlock();
+            public static final Block PARROT_STATUE = new ParrotStatueBlock();
 
             public static BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY;
 
@@ -32,6 +34,7 @@ public class ModBlocks {
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "axolotl_statue"), AXOLOTL_STATUE);
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "blaze_statue"), BLAZE_STATUE);
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "steve_statue"), STEVE_STATUE);
+            Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "parrot_statue"), PARROT_STATUE);
 
             STATUE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "statesnrunes:statue", FabricBlockEntityTypeBuilder.create(StatueBlockEntity::new, 
             
@@ -40,7 +43,8 @@ public class ModBlocks {
             CREEPER_STATUE,
             AXOLOTL_STATUE,
             BLAZE_STATUE,
-            STEVE_STATUE
+            STEVE_STATUE,
+            PARROT_STATUE
 
             ).build(null));
       }

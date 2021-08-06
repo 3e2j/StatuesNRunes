@@ -20,7 +20,8 @@ public class SnRClient implements ClientModInitializer{
             ModBlocks.CREEPER_STATUE,
             ModBlocks.AXOLOTL_STATUE,
             ModBlocks.BLAZE_STATUE,
-            ModBlocks.STEVE_STATUE
+            ModBlocks.STEVE_STATUE,
+            ModBlocks.PARROT_STATUE
             
             );
 
@@ -30,7 +31,8 @@ public class SnRClient implements ClientModInitializer{
             ModBlocks.CREEPER_STATUE,
             ModBlocks.AXOLOTL_STATUE,
             ModBlocks.BLAZE_STATUE,
-            ModBlocks.STEVE_STATUE
+            ModBlocks.STEVE_STATUE,
+            ModBlocks.PARROT_STATUE
             
             );
             ScreenRegistry.register(SnR.BOX_SCREEN_HANDLER, BoxScreen::new);
