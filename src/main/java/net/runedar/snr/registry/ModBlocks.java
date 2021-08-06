@@ -1,9 +1,12 @@
 package net.runedar.snr.registry;
 
-import net.minecraft.block.enums.DoubleBlockHalf;
 import net.runedar.snr.SnR;
-import net.runedar.snr.blocks.*;
 import net.runedar.snr.blocks.blockentities.StatueBlockEntity;
+import net.runedar.snr.blocks.AxolotlStatueBlock;
+import net.runedar.snr.blocks.BlazeStatueBlock;
+import net.runedar.snr.blocks.ChickenStatueBlock;
+import net.runedar.snr.blocks.CreeperStatueBlock;
+import net.runedar.snr.blocks.SteveStatueBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;

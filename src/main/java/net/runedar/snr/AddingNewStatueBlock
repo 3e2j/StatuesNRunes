@@ -28,3 +28,8 @@ the pattern should be obvious enough (dont forget commas when necessary)
 
 
 15. In game you can mess with the Voxel/Hitbox shape and mess around with inventory viewing.
+
+
+UPDATE!!!!! - DoubleBlock models now exist for 2 block high characters, they run differently to regular 1 tall blocks.
+From loot tables to blockentites and all the rest of the files in the above instructions - make sure that you copy 2 block
+tall characters code - otherwise it will appear super weird ingame.

@@ -9,13 +9,13 @@
           "conditions": [
             {
               "condition": "minecraft:block_state_property",
-              "block": "statuesnrunes:blaze_statue",
+              "block": "statuesnrunes:steve_statue",
               "properties": {
                 "half": "lower"
               }
             }
           ],
-          "name": "statuesnrunes:blaze_statue"
+          "name": "statuesnrunes:steve_statue"
         }
       ],
       "conditions": [

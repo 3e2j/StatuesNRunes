@@ -3,6 +3,10 @@
           "facing=north": { "model": "statuesnrunes:block/steve_statue" , "y" : 0},
           "facing=east": { "model": "statuesnrunes:block/steve_statue" , "y" : 90},
           "facing=south": { "model": "statuesnrunes:block/steve_statue" , "y" : 180},
-          "facing=west": { "model": "statuesnrunes:block/steve_statue" , "y" : 270}
+          "facing=west": { "model": "statuesnrunes:block/steve_statue" , "y" : 270},
+          "facing=north,half=upper": { "model": "statuesnrunes:block/blank" , "y" : 0},
+          "facing=east,half=upper": { "model": "statuesnrunes:block/blank" , "y" : 90},
+          "facing=south,half=upper": { "model": "statuesnrunes:block/blank" , "y" : 180},
+          "facing=west,half=upper": { "model": "statuesnrunes:block/blank" , "y" : 270}
       }
   }
