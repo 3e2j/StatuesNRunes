@@ -1,9 +1,7 @@
 package net.runedar.snr.blocks;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,9 +16,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
-import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
-
+@SuppressWarnings("deprecation")
 /* - Append from Hat
 Ripped directly from net.minecraft.block.DoorBlock
 Modified to extend StatueMain and do only the options we need.
@@ -38,7 +35,6 @@ public abstract class TallStatue extends StatueMain{
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(HALF, DoubleBlockHalf.LOWER));
     }
 
-    @SuppressWarnings("deprecation")
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         DoubleBlockHalf doubleBlockHalf = state.get(HALF);
         if (direction.getAxis() == Direction.Axis.Y && doubleBlockHalf == DoubleBlockHalf.LOWER == (direction == Direction.UP)) {
@@ -49,8 +45,12 @@ public abstract class TallStatue extends StatueMain{
 
     }
 
+    /**
+     * Breakage of Tall Block
+     */
+    @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (!world.isClient) {
+        if (world.isClient) {
             if (player.isCreative()) {
                 onBreakInCreative(world, pos, state, player);
             } else {
@@ -60,11 +60,17 @@ public abstract class TallStatue extends StatueMain{
 
         super.onBreak(world, pos, state, player);
     }
+    @Override
+    public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
+        super.afterBreak(world, player, pos, Blocks.AIR.getDefaultState(), blockEntity, stack);
+    }
 
-
-    //Destroys a bottom half of a tall double block (such as a plant or a door) without dropping an item when broken in creative.
-    //See Also:
-    //Block.onBreak(World, BlockPos, BlockState, PlayerEntity)
+    /**
+     * Destroys a bottom half of a tall double block (such as a plant or a door)
+     * without dropping an item when broken in creative.
+     *
+     * @see Block#onBreak(World, BlockPos, BlockState, PlayerEntity)
+     */
     protected static void onBreakInCreative(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         DoubleBlockHalf doubleBlockHalf = state.get(HALF);
         if (doubleBlockHalf == DoubleBlockHalf.UPPER) {
@@ -94,14 +100,6 @@ public abstract class TallStatue extends StatueMain{
         world.setBlockState(pos.up(), state.with(HALF, DoubleBlockHalf.UPPER), Block.NOTIFY_ALL);
     }
 
-    @SuppressWarnings("deprecation")
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        BlockPos blockPos = pos.down();
-        BlockState blockState = world.getBlockState(blockPos);
-        return state.get(HALF) == DoubleBlockHalf.LOWER ? blockState.isSideSolidFullSquare(world, blockPos, Direction.UP) : blockState.isOf(this);
-    }
-
-    @SuppressWarnings("deprecation")
     public long getRenderingSeed(BlockState state, BlockPos pos) {
         return MathHelper.hashCode(pos.getX(), pos.down(state.get(HALF) == DoubleBlockHalf.LOWER ? 0 : 1).getY(), pos.getZ());
     }

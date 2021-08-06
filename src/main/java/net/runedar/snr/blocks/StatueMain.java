@@ -4,15 +4,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
@@ -26,10 +23,9 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.runedar.snr.blocks.blockentities.StatueBlockEntity;
+@SuppressWarnings("deprecation")
+public class StatueMain extends BlockWithEntity{
 
-public class StatueMain extends BlockWithEntity implements Waterloggable{
-
-    public static final BooleanProperty                WATERLOGGED;
 	public static final DirectionProperty              FACING;
     static        VoxelShape                     VOXEL_SHAPE_CUBE;
 
@@ -104,7 +100,6 @@ public class StatueMain extends BlockWithEntity implements Waterloggable{
     }
     static
     {
-        WATERLOGGED = Properties.WATERLOGGED;
         FACING = Properties.HORIZONTAL_FACING;
 		VOXEL_SHAPE_CUBE = VoxelShapes.cuboid(0f, 0f, 0f, 1f, 1f, 1);
     }
