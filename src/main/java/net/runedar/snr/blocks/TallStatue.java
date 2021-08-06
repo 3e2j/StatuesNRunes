@@ -1,7 +1,6 @@
 package net.runedar.snr.blocks;
 
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,6 +15,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 @SuppressWarnings("deprecation")
 /* - Append from Hat
@@ -45,24 +45,24 @@ public abstract class TallStatue extends StatueMain{
 
     }
 
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        if (state.get(HALF) != DoubleBlockHalf.UPPER) {
+            return super.canPlaceAt(state, world, pos);
+        } else {
+            BlockState blockState = world.getBlockState(pos.down());
+            return blockState.isOf(this) && blockState.get(HALF) == DoubleBlockHalf.LOWER;
+        }
+    }
+
     /**
      * Breakage of Tall Block
      */
-    @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (world.isClient) {
-            if (player.isCreative()) {
-                onBreakInCreative(world, pos, state, player);
-            } else {
-                dropStacks(state, world, pos, null, player, player.getMainHandStack());
-            }
+        if (!world.isClient && player.isCreative()) {
+            onBreakInCreative(world, pos, state, player);
         }
 
         super.onBreak(world, pos, state, player);
-    }
-    @Override
-    public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
-        super.afterBreak(world, player, pos, Blocks.AIR.getDefaultState(), blockEntity, stack);
     }
 
     /**

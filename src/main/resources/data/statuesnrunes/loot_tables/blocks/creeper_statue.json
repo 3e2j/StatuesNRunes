@@ -6,6 +6,15 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "statuesnrunes:creeper_statue",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ],
           "name": "statuesnrunes:creeper_statue"
         }
       ],
