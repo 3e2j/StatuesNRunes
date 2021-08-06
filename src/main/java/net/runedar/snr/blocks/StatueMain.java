@@ -1,15 +1,15 @@
 package net.runedar.snr.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
@@ -22,28 +22,31 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.runedar.snr.blocks.blockentities.StatueBlockEntity;
 @SuppressWarnings("deprecation")
-public class StatueMain extends BlockWithEntity{
+public class StatueMain extends BlockWithEntity implements Waterloggable {
 
+    public static final BooleanProperty WATERLOGGED;
 	public static final DirectionProperty              FACING;
     static        VoxelShape                     VOXEL_SHAPE_CUBE;
 
       public StatueMain(Settings settings) {
         super(settings);
       //Rotation + Visual Fix
-      setDefaultState(this.stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
+      setDefaultState(this.stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(WATERLOGGED, false));
       }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
+        stateManager.add(Properties.HORIZONTAL_FACING,WATERLOGGED);
+    }
 
       @Override
       public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
           return new StatueBlockEntity(pos, state);
       }
 
-      @Override
-      protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
-      stateManager.add(Properties.HORIZONTAL_FACING);
-      }
       public BlockState getPlacementState(ItemPlacementContext ctx) {
             return this.getDefaultState().with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
       }
@@ -58,6 +61,18 @@ public class StatueMain extends BlockWithEntity{
     public BlockRenderType getRenderType(BlockState state) {
         // With inheriting from BlockWithEntity this defaults to INVISIBLE, so we need to change that!
         return BlockRenderType.MODEL;
+    }
+
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (state.get(WATERLOGGED)) {
+            world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
+    public FluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
 
@@ -101,6 +116,7 @@ public class StatueMain extends BlockWithEntity{
 
     static
     {
+        WATERLOGGED = Properties.WATERLOGGED;
         FACING = Properties.HORIZONTAL_FACING;
 		VOXEL_SHAPE_CUBE = VoxelShapes.cuboid(0f, 0f, 0f, 1f, 1f, 1);
     }
