@@ -6,9 +6,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -52,6 +56,31 @@ public abstract class TallStatue extends StatueMain{
             BlockState blockState = world.getBlockState(pos.down());
             return blockState.isOf(this) && blockState.get(HALF) == DoubleBlockHalf.LOWER;
         }
+    }
+
+    /**
+     *Override for tall statue to call upon the under inventory. Not the top
+     * */
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        DoubleBlockHalf doubleBlockHalf = state.get(HALF);
+        if (!world.isClient)    {
+            NamedScreenHandlerFactory screenHandlerFactory;//With this call the server will request the client to open the appropriate Screenhandler
+            if (doubleBlockHalf == DoubleBlockHalf.LOWER){
+            //This will call the createScreenHandlerFactory method from BlockWithEntity, which will return our blockEntity casted to
+            //a namedScreenHandlerFactory. If your block class does not extend BlockWithEntity, it needs to implement createScreenHandlerFactory.
+                screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
+
+            }else{
+                screenHandlerFactory = state.createScreenHandlerFactory(world, pos.down());
+
+            }
+            if (screenHandlerFactory != null) {
+                //With this call the server will request the client to open the appropriate Screenhandler
+                player.openHandledScreen(screenHandlerFactory);
+                }
+        }
+        return ActionResult.SUCCESS;
     }
 
     /**
