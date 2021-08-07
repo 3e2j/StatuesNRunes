@@ -36,7 +36,7 @@ public class ParrotStatueBlock extends StatueMain{
 	    }
 	}
 	static {
-		VOXEL_SHAPE_NORTH = VoxelShapes.cuboid(0.2f, 0f, 0.1f, 0.8f, 1f, 0.9f);
-		VOXEL_SHAPE_WEST = VoxelShapes.cuboid(0.1f, 0f, 0.2f, 0.9f, 1f, 0.8);
+		VOXEL_SHAPE_NORTH = VoxelShapes.cuboid(0.3f, 0f, 0.2f, 0.7f, 0.9f, 0.8f);
+		VOXEL_SHAPE_WEST = VoxelShapes.cuboid(0.2f, 0f, 0.3f, 0.8f, 0.9f, 0.7);
 	}
 }
