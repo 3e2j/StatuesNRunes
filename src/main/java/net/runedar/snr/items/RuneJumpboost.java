@@ -18,7 +18,7 @@ public class RuneJumpboost extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
         ItemStack itemStack = playerEntity.getStackInHand(hand);
-        playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 20, 1));
+        playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 200, 1));
 
         playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
         if (!playerEntity.getAbilities().creativeMode) {

@@ -21,7 +21,7 @@ public class GoldenHeart extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
         ItemStack itemStack = playerEntity.getStackInHand(hand);
-        playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 20, 1));
+        playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 200, 1));
 
         playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
         if (!playerEntity.getAbilities().creativeMode) {
