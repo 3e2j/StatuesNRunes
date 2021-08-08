@@ -26,7 +26,7 @@ public class ModItems {
             //Items
             public static final Item GOLDEN_HEART = new GoldenHeart(new FabricItemSettings().group(SnR.TAB).maxCount(1));
             public static final Item CHISEL = new Chisel(new FabricItemSettings().group(SnR.TAB).maxCount(1));
-            public static final Item RUNE_JUMPBOOST = new RuneJumpboost(new FabricItemSettings().group(SnR.TAB).maxCount(1));
+            public static final Item RUNE_JUMPBOOST = new RuneJumpboost(new FabricItemSettings().group(SnR.TAB).maxCount(16));
 
       public static void registerItems(){
 
