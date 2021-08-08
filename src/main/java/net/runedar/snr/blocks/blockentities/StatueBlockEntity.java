@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -16,6 +17,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.runedar.snr.registry.ModBlocks;
+import net.runedar.snr.registry.ModItems;
 import net.runedar.snr.screenhandler.BoxScreenHandler;
 import net.runedar.snr.screenhandler.InventoryCode;
 
@@ -25,7 +27,15 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public StatueBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.STATUE_BLOCK_ENTITY, pos, state);
     }
- 
+
+    public ItemStack runeEffects(BlockEntity blockEntity, int invSlot){
+        ItemStack itemStack = this.getStack(0);
+        Item item = itemStack.getItem();
+        if (item.equals(ModItems.CHISEL)){
+            
+        }
+        return null;
+    }
  
     //From the ImplementedInventory Interface
  
