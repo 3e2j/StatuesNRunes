@@ -24,6 +24,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.runedar.snr.blocks.blockentities.StatueBlockEntity;
+
 @SuppressWarnings("deprecation")
 public class StatueMain extends BlockWithEntity implements Waterloggable {
 
