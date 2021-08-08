@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.runedar.snr.items.Chisel;
 import net.runedar.snr.items.GoldenHeart;
 
 public class ModItems {
@@ -20,6 +21,7 @@ public class ModItems {
 
             //Items
             public static final Item GOLDEN_HEART = new GoldenHeart(new FabricItemSettings().group(SnR.TAB).maxCount(1));
+            public static final Item CHISEL = new Chisel(new FabricItemSettings().group(SnR.TAB).maxCount(1));
 
       public static void registerItems(){
 
@@ -33,6 +35,7 @@ public class ModItems {
 
             //Items
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "golden_heart"), GOLDEN_HEART);
+            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "chisel"), CHISEL);
 
       }
 }
