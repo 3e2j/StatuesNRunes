@@ -1,13 +1,8 @@
 package net.runedar.snr.registry;
 
 import net.runedar.snr.SnR;
+import net.runedar.snr.blocks.*;
 import net.runedar.snr.blocks.blockentities.StatueBlockEntity;
-import net.runedar.snr.blocks.AxolotlStatueBlock;
-import net.runedar.snr.blocks.BlazeStatueBlock;
-import net.runedar.snr.blocks.ChickenStatueBlock;
-import net.runedar.snr.blocks.CreeperStatueBlock;
-import net.runedar.snr.blocks.ParrotStatueBlock;
-import net.runedar.snr.blocks.SteveStatueBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
@@ -17,12 +12,15 @@ import net.minecraft.util.registry.Registry;
 public class ModBlocks {
 
             //statues
-	      public static final Block CHICKEN_STATUE = new ChickenStatueBlock();
+	        public static final Block CHICKEN_STATUE = new ChickenStatueBlock();
             public static final Block CREEPER_STATUE = new CreeperStatueBlock();
             public static final Block AXOLOTL_STATUE = new AxolotlStatueBlock();
             public static final Block BLAZE_STATUE = new BlazeStatueBlock();
             public static final Block STEVE_STATUE = new SteveStatueBlock();
             public static final Block PARROT_STATUE = new ParrotStatueBlock();
+
+            //Blocks
+            public static final Block STATUE_BLOCK = new StatueBlock();
 
             public static BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY;
 
@@ -35,6 +33,10 @@ public class ModBlocks {
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "blaze_statue"), BLAZE_STATUE);
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "steve_statue"), STEVE_STATUE);
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "parrot_statue"), PARROT_STATUE);
+
+
+            //Blocks
+            Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "statue_block"), STATUE_BLOCK);
 
             STATUE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "statesnrunes:statue", FabricBlockEntityTypeBuilder.create(StatueBlockEntity::new, 
             

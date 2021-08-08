@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 
 public class BoxScreen extends HandledScreen<ScreenHandler> {
       //A path to the gui texture. In this example we use the texture from the dispenser
-      private static final Identifier TEXTURE = new Identifier("statuesnrunes", "textures/gui/container/statue.png");
+      private static final Identifier TEXTURE = new Identifier("statuesnrunes", "textures/gui/container/statue_block.png");
    
       public BoxScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
           super(handler, inventory, title);

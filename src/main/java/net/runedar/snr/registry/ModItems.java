@@ -10,6 +10,9 @@ import net.runedar.snr.items.Chisel;
 import net.runedar.snr.items.GoldenHeart;
 
 public class ModItems {
+            //Statue Block
+            public static final Item STATUE_BLOCK = new BlockItem(ModBlocks.STATUE_BLOCK, new Item.Settings().group(SnR.TAB));
+
             //statues
             //Put in alphebetical order - appears this way in the tab
             public static final Item AXOLOTL_STATUE = new BlockItem(ModBlocks.AXOLOTL_STATUE, new Item.Settings().group(SnR.TAB));
@@ -24,6 +27,9 @@ public class ModItems {
             public static final Item CHISEL = new Chisel(new FabricItemSettings().group(SnR.TAB).maxCount(1));
 
       public static void registerItems(){
+
+            //Blocks
+            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "statue_block"), STATUE_BLOCK);
 
             //Statues
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "chicken_statue"), CHICKEN_STATUE);
