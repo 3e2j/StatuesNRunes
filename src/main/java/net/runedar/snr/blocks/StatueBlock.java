@@ -83,10 +83,10 @@ public class StatueBlock extends BlockWithEntity implements Waterloggable{
                 //This will call the createScreenHandlerFactory method from BlockWithEntity, which will return our blockEntity casted to
                 //a namedScreenHandlerFactory. If your block class does not extend BlockWithEntity, it needs to implement createScreenHandlerFactory.
                 NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-                player.playSound(SoundEvents.UI_STONECUTTER_TAKE_RESULT, 1.0F, 1.0F);
 
                 if (screenHandlerFactory != null) {
                     //With this call the server will request the client to open the appropriate Screenhandler
+                    player.playSound(SoundEvents.UI_STONECUTTER_TAKE_RESULT, 1.0F, 1.0F);
                     player.openHandledScreen(screenHandlerFactory);
                 }
             }
