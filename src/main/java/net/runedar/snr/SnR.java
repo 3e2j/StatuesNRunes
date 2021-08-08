@@ -9,7 +9,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.runedar.snr.registry.*;
 import net.runedar.snr.screenhandler.BoxScreenHandler;
-
+import net.runedar.snr.screenhandler.StatueScreenHandler;
 
 
 public class SnR implements ModInitializer {
@@ -17,9 +17,11 @@ public class SnR implements ModInitializer {
 	public static final String MODID = "statuesnrunes";
 	public static final ItemGroup TAB = FabricItemGroupBuilder.build(new Identifier(MODID, "snrgroup"), () -> new ItemStack(ModBlocks.CHICKEN_STATUE));
 	public static final ScreenHandlerType<BoxScreenHandler> BOX_SCREEN_HANDLER;
+	public static final ScreenHandlerType<StatueScreenHandler> STATUE_SCREEN_HANDLER;
 
 	static {
 		BOX_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier(MODID, "statue"), BoxScreenHandler::new);
+		STATUE_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier(MODID, "mason"), StatueScreenHandler::new);
 	  }
 	@Override
 	public void onInitialize() {

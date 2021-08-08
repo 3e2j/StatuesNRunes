@@ -1,7 +1,6 @@
 package net.runedar.snr.screenhandler;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -10,11 +9,11 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class BoxScreen extends HandledScreen<ScreenHandler> {
+public class StatueScreen extends HandledScreen<ScreenHandler> {
       //A path to the gui texture. In this example we use the texture from the dispenser
       private static final Identifier TEXTURE = new Identifier("statuesnrunes", "textures/gui/container/statue.png");
-   
-      public BoxScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
+
+      public StatueScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
           super(handler, inventory, title);
       }
    

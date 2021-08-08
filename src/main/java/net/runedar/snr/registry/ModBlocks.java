@@ -2,6 +2,7 @@ package net.runedar.snr.registry;
 
 import net.runedar.snr.SnR;
 import net.runedar.snr.blocks.*;
+import net.runedar.snr.blocks.blockentities.MasonBlockEntity;
 import net.runedar.snr.blocks.blockentities.StatueBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
@@ -23,6 +24,7 @@ public class ModBlocks {
             public static final Block STATUE_BLOCK = new StatueBlock();
 
             public static BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY;
+            public static BlockEntityType<MasonBlockEntity> MASON_BLOCK_ENTITY;
 
       public static void registerBlocks(){
             
@@ -38,7 +40,7 @@ public class ModBlocks {
             //Blocks
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "statue_block"), STATUE_BLOCK);
 
-            STATUE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "statesnrunes:statue", FabricBlockEntityTypeBuilder.create(StatueBlockEntity::new, 
+            STATUE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "statesnrunes:carved_statue", FabricBlockEntityTypeBuilder.create(StatueBlockEntity::new,
             
             //statuesOnly
             CHICKEN_STATUE,
@@ -49,5 +51,7 @@ public class ModBlocks {
             PARROT_STATUE
 
             ).build(null));
+
+            MASON_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "statesnrunes:statue", FabricBlockEntityTypeBuilder.create(MasonBlockEntity::new, STATUE_BLOCK).build(null));
       }
 }
