@@ -25,8 +25,7 @@ public class MasonBlockEntity extends BlockEntity implements NamedScreenHandlerF
     public MasonBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.MASON_BLOCK_ENTITY, pos, state);
     }
- 
- 
+
     //From the ImplementedInventory Interface
  
     @Override

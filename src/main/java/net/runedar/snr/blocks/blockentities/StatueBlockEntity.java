@@ -32,7 +32,16 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         ItemStack itemStack = this.getStack(0);
         Item item = itemStack.getItem();
         if (item.equals(ModItems.CHISEL)){
-            
+            return null;
+        }
+        else if (item.equals(ModItems.STATUE_BLOCK)) {
+            return null;
+        }
+        else if (item.equals(ModItems.GOLDEN_HEART)) {
+            return null;
+        }
+        else if (item.equals(ModItems.BLAZE_STATUE)) {
+            return null;
         }
         return null;
     }
