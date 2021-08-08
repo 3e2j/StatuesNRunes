@@ -17,13 +17,11 @@ public class CorruptedHeart extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
         ItemStack itemStack = playerEntity.getStackInHand(hand);
-        playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 200, 1));
-        itemStack.damage(5, playerEntity, (p) -> p.sendToolBreakStatus(hand));
+        playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 3000, 0));
+        playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 3000, 0));
+        itemStack.damage(2, playerEntity, (p) -> p.sendToolBreakStatus(hand));
 
-       /* playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
-        if (!playerEntity.getAbilities().creativeMode) {
-            itemStack.decrement(1);
-        }*/
+
 
     return TypedActionResult.success(playerEntity.getStackInHand(hand));
 
