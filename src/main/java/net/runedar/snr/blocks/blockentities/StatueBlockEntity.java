@@ -2,6 +2,9 @@ package net.runedar.snr.blocks.blockentities;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -31,8 +34,8 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public ItemStack runeEffects(BlockEntity blockEntity, int invSlot){
         ItemStack itemStack = this.getStack(0);
         Item item = itemStack.getItem();
+        LivingEntity playerEntity;
         if (item.equals(ModItems.CHISEL)){
-            return null;
         }
         else if (item.equals(ModItems.STATUE_BLOCK)) {
             return null;
