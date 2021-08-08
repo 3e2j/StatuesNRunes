@@ -7,6 +7,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.runedar.snr.items.Chisel;
+import net.runedar.snr.items.CorruptedHeart;
 import net.runedar.snr.items.GoldenHeart;
 import net.runedar.snr.items.RuneJumpboost;
 
