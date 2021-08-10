@@ -2,13 +2,12 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.runedar.snr.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "LivingEntityMixin"
   ],
   "client": [
+    "ExampleMixin"
   ],
-  "server": [],
   "injectors": {
     "defaultRequire": 1
   }
