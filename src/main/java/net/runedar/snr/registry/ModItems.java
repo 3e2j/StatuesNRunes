@@ -22,11 +22,12 @@ public class ModItems {
             public static final Item PARROT_STATUE = new BlockItem(ModBlocks.PARROT_STATUE, new Item.Settings().group(SnR.TAB));
 
             //Items
-            public static final Item GOLDEN_HEART = new GoldenHeart(new FabricItemSettings().group(SnR.TAB).maxCount(1));
             public static final Item CHISEL = new Chisel(new FabricItemSettings().group(SnR.TAB).maxCount(1));
-            public static final Item RUNE_JUMPBOOST = new RuneJumpboost(new FabricItemSettings().group(SnR.TAB).maxCount(16));
+            public static final Item GOLDEN_HEART = new GoldenHeart(new FabricItemSettings().group(SnR.TAB).maxCount(1));
             public static final Item CORRUPTED_HEART = new CorruptedHeart(new FabricItemSettings().group(SnR.TAB).maxCount(1).maxDamage(10));
+            public static final Item RUNE_JUMPBOOST = new RuneJumpboost(new FabricItemSettings().group(SnR.TAB).maxCount(16));
             public static final Item RUNE_NIGHTVISION = new RuneNightVision(new FabricItemSettings().group(SnR.TAB).maxCount(16));
+            public static final Item RUNE_FIRERESISTANCE = new RuneFireResistance(new FabricItemSettings().group(SnR.TAB).maxCount(16));
 
       public static void registerItems(){
 
@@ -42,11 +43,12 @@ public class ModItems {
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "parrot_statue"), PARROT_STATUE);
 
             //Items
-            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "golden_heart"), GOLDEN_HEART);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "chisel"), CHISEL);
-            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_jumpboost"), RUNE_JUMPBOOST);
+            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "golden_heart"), GOLDEN_HEART);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "corrupted_heart"), CORRUPTED_HEART);
+            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_jumpboost"), RUNE_JUMPBOOST);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_nightvision"), RUNE_NIGHTVISION);
+            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_fireresistance"), RUNE_FIRERESISTANCE);
 
       }
 }
