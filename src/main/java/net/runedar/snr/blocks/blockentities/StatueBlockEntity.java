@@ -56,6 +56,8 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         if (blockEntity.itemin <= 0 && itemStack.isOf(ModItems.GOLDEN_HEART)) {
             blockEntity.itemin = 1;
             markDirty(world, pos, state);
+        } else {
+            blockEntity.itemin = 0;
         }
     }
  
