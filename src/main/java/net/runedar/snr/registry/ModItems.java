@@ -8,6 +8,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.runedar.snr.items.*;
 
+import java.security.PublicKey;
+
 public class ModItems {
             //Statue Block
             public static final Item STATUE_BLOCK = new BlockItem(ModBlocks.STATUE_BLOCK, new Item.Settings().group(SnR.TAB));
@@ -30,6 +32,7 @@ public class ModItems {
             public static final Item RUNE_FIRERESISTANCE = new RuneFireResistance(new FabricItemSettings().group(SnR.TAB).maxCount(16));
             public static final Item RUNE_INVISIBILITY = new RuneInvisibility(new FabricItemSettings().group(SnR.TAB).maxCount(16));
             public static final Item RUNE_HEALTHBOOST = new RuneHealthBoost(new FabricItemSettings().group(SnR.TAB).maxCount(16));
+            public static final Item RUNE_ABSORPTION = new RuneAbsorption(new FabricItemSettings().group(SnR.TAB).maxCount(16));
 
       public static void registerItems(){
 
@@ -53,6 +56,7 @@ public class ModItems {
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_fireresistance"), RUNE_FIRERESISTANCE);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_invisibility"), RUNE_INVISIBILITY);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_healthboost"), RUNE_HEALTHBOOST);
+            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_absorption"), RUNE_ABSORPTION);
 
       }
 }
