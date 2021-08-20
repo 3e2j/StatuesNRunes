@@ -2,6 +2,8 @@ package net.runedar.snr.blocks;
 
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -23,10 +25,12 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.runedar.snr.blocks.blockentities.BlockEntityHost;
 import net.runedar.snr.blocks.blockentities.StatueBlockEntity;
+import net.runedar.snr.registry.ModBlocks;
 
 @SuppressWarnings("deprecation")
-public class StatueMain extends BlockWithEntity implements Waterloggable {
+public class StatueMain extends BlockWithEntity implements Waterloggable, BlockEntityHost<StatueBlockEntity> {
 
     public static final BooleanProperty WATERLOGGED;
 	public static final DirectionProperty              FACING;
@@ -43,7 +47,19 @@ public class StatueMain extends BlockWithEntity implements Waterloggable {
         stateManager.add(Properties.HORIZONTAL_FACING,WATERLOGGED);
     }
 
-      @Override
+    @Override
+    public BlockEntityType<StatueBlockEntity> getBlockEntityType() {
+        return ModBlocks.STATUE_BLOCK_ENTITY;
+    }
+
+    @Override
+    public BlockEntityTicker<StatueBlockEntity> getTickDelegate()
+    {
+        return StatueBlockEntity::tick;
+    }
+
+
+    @Override
       public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
           return new StatueBlockEntity(pos, state);
       }
