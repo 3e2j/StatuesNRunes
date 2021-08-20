@@ -29,6 +29,7 @@ public class ModItems {
             public static final Item RUNE_NIGHTVISION = new RuneNightVision(new FabricItemSettings().group(SnR.TAB).maxCount(16));
             public static final Item RUNE_FIRERESISTANCE = new RuneFireResistance(new FabricItemSettings().group(SnR.TAB).maxCount(16));
             public static final Item RUNE_INVISIBILITY = new RuneInvisibility(new FabricItemSettings().group(SnR.TAB).maxCount(16));
+            public static final Item RUNE_HEALTHBOOST = new RuneHealthBoost(new FabricItemSettings().group(SnR.TAB).maxCount(16));
 
       public static void registerItems(){
 
@@ -51,6 +52,7 @@ public class ModItems {
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_nightvision"), RUNE_NIGHTVISION);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_fireresistance"), RUNE_FIRERESISTANCE);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_invisibility"), RUNE_INVISIBILITY);
+            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_healthboost"), RUNE_HEALTHBOOST);
 
       }
 }
