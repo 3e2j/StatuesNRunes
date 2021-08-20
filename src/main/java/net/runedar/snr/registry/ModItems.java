@@ -34,6 +34,9 @@ public class ModItems {
             public static final Item RUNE_HEALTHBOOST = new RuneHealthBoost(new FabricItemSettings().group(SnR.TAB).maxCount(16));
             public static final Item RUNE_ABSORPTION = new RuneAbsorption(new FabricItemSettings().group(SnR.TAB).maxCount(16));
             public static final Item RUNE_GLOWING = new RuneGlowing(new FabricItemSettings().group(SnR.TAB).maxCount(16));
+            public static final Item RUNE_LEVITATION = new RuneLevitation(new FabricItemSettings().group(SnR.TAB).maxCount(16));
+            public static final Item RUNE_SLOWFALL = new RuneSlowFall(new FabricItemSettings().group(SnR.TAB).maxCount(16));
+
       public static void registerItems(){
 
             //Blocks
@@ -58,5 +61,7 @@ public class ModItems {
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_healthboost"), RUNE_HEALTHBOOST);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_absorption"), RUNE_ABSORPTION);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_glowing"), RUNE_GLOWING);
+            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_levitation"), RUNE_LEVITATION);
+            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "rune_slowfall"), RUNE_SLOWFALL);
       }
 }
