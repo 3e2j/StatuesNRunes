@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
@@ -24,6 +23,7 @@ import net.runedar.snr.screenhandler.InventoryCode;
 
 
 public class StatueBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, InventoryCode, SidedInventory{
+    static PlayerEntity playerEntity;
     public int itemin;
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
@@ -44,7 +44,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
         return new BoxScreenHandler(syncId, playerInventory, this);
     }
- 
+
     @Override
     public Text getDisplayName() {
         return new TranslatableText(getCachedState().getBlock().getTranslationKey());
@@ -53,26 +53,59 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
 
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
         ItemStack itemStack = blockEntity.inventory.get(0);
-        if (blockEntity.itemin <= 0 && itemStack.isOf(ModItems.GOLDEN_HEART)) {
-            blockEntity.itemin = 1;
-            markDirty(world, pos, state);
-        } else {
+        if (blockEntity.itemin <= 0) {
+            if (itemStack.isOf(ModItems.GOLDEN_HEART)) {
+                blockEntity.itemin = 1;
+            }
+            if (itemStack.isOf(ModItems.CORRUPTED_HEART)) {
+                blockEntity.itemin = 2;
+            }
+            if (itemStack.isOf(ModItems.RUNE_LEVITATION)) {
+                blockEntity.itemin = 3;
+            }
+            if (itemStack.isOf(ModItems.RUNE_SLOWFALL)) {
+                blockEntity.itemin = 4;
+            }
+            if (itemStack.isOf(ModItems.RUNE_NIGHTVISION)) {
+                blockEntity.itemin = 5;
+            }
+            if (itemStack.isOf(ModItems.RUNE_GLOWING)) {
+                blockEntity.itemin = 6;
+            }
+            if (itemStack.isOf(ModItems.RUNE_HEALTHBOOST)) {
+                blockEntity.itemin = 7;
+            }
+            if (itemStack.isOf(ModItems.RUNE_ABSORPTION)) {
+                blockEntity.itemin = 8;
+            }
+            if (itemStack.isOf(ModItems.RUNE_FIRERESISTANCE)) {
+                blockEntity.itemin = 9;
+            }
+            if (itemStack.isOf(ModItems.RUNE_JUMPBOOST)) {
+                blockEntity.itemin = 10;
+            }
+            if (itemStack.isOf(ModItems.RUNE_INVISIBILITY)) {
+                blockEntity.itemin = 11;
+            }
+        }
+        else if (itemStack.isEmpty()) {
             blockEntity.itemin = 0;
         }
+        markDirty(world, pos, state);
     }
  
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
-        this.itemin = nbt.getByte("itemin");
+        this.itemin = nbt.getByte("ItemIn");
     }
- 
+
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
-        nbt.putByte("itemin", (byte)this.itemin);
+        nbt.putByte("ItemIn", (byte)this.itemin);
         return nbt;
     }
 
