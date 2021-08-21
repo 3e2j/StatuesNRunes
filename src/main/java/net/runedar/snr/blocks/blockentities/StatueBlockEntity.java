@@ -62,7 +62,6 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
 
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
         ItemStack itemStack = blockEntity.inventory.get(0);
-        @Nullable StatusEffect primaryEffect;
         if (blockEntity.itemin <= 0) {
                 if (itemStack.isOf(ModItems.GOLDEN_HEART)) {
                     blockEntity.itemin = 1;
@@ -97,16 +96,16 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                 if (itemStack.isOf(ModItems.RUNE_INVISIBILITY)) {
                     blockEntity.itemin = 11;
                 }
-            applyPlayerEffects(world, pos, blockEntity.primary, blockEntity.itemin);
         }
         else if (itemStack.isEmpty()) {
             blockEntity.itemin = 0;
         }
         markDirty(world, pos, state);
+        applyPlayerEffects(world, pos, blockEntity.itemin);
     }
 
-    private static void applyPlayerEffects(World world, BlockPos pos, @Nullable StatusEffect primaryEffect, int itemin) {
-        double d = 80;
+    private static void applyPlayerEffects(World world, BlockPos pos, int itemin) {
+        double d = 20;
         Box box = (new Box(pos)).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
         List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
         Iterator<PlayerEntity> var1 = list.iterator();
@@ -117,6 +116,15 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
             switch (itemin){
                 case 1: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
                 case 2: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
+                case 3: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
+                case 4: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
+                case 5: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
+                case 6: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
+                case 7: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
+                case 8: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
+                case 9: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
+                case 10: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
+                case 11: playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
             }
         }
     }
