@@ -63,38 +63,32 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
         ItemStack itemStack = blockEntity.inventory.get(0);
         if (blockEntity.itemin <= 0) {
-                if (itemStack.isOf(ModItems.GOLDEN_HEART)) {
+                if (itemStack.isOf(ModItems.RUNE_LEVITATION)) {
                     blockEntity.itemin = 1;
                 }
-                if (itemStack.isOf(ModItems.CORRUPTED_HEART)) {
+                if (itemStack.isOf(ModItems.RUNE_SLOWFALL)) {
                     blockEntity.itemin = 2;
                 }
-                if (itemStack.isOf(ModItems.RUNE_LEVITATION)) {
+                if (itemStack.isOf(ModItems.RUNE_NIGHTVISION)) {
                     blockEntity.itemin = 3;
                 }
-                if (itemStack.isOf(ModItems.RUNE_SLOWFALL)) {
+                if (itemStack.isOf(ModItems.RUNE_GLOWING)) {
                     blockEntity.itemin = 4;
                 }
-                if (itemStack.isOf(ModItems.RUNE_NIGHTVISION)) {
+                if (itemStack.isOf(ModItems.RUNE_HEALTHBOOST)) {
                     blockEntity.itemin = 5;
                 }
-                if (itemStack.isOf(ModItems.RUNE_GLOWING)) {
+                if (itemStack.isOf(ModItems.RUNE_ABSORPTION)) {
                     blockEntity.itemin = 6;
                 }
-                if (itemStack.isOf(ModItems.RUNE_HEALTHBOOST)) {
+                if (itemStack.isOf(ModItems.RUNE_FIRERESISTANCE)) {
                     blockEntity.itemin = 7;
                 }
-                if (itemStack.isOf(ModItems.RUNE_ABSORPTION)) {
+                if (itemStack.isOf(ModItems.RUNE_JUMPBOOST)) {
                     blockEntity.itemin = 8;
                 }
-                if (itemStack.isOf(ModItems.RUNE_FIRERESISTANCE)) {
-                    blockEntity.itemin = 9;
-                }
-                if (itemStack.isOf(ModItems.RUNE_JUMPBOOST)) {
-                    blockEntity.itemin = 10;
-                }
                 if (itemStack.isOf(ModItems.RUNE_INVISIBILITY)) {
-                    blockEntity.itemin = 11;
+                    blockEntity.itemin = 9;
                 }
         }
         else if (itemStack.isEmpty()) {
@@ -114,17 +108,15 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         while (var1.hasNext()) {
             playerEntity = var1.next();
             switch (itemin) {
-                case 1 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
-                case 2 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 40, 0, true, true));
-                case 3 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0, true, true));
-                case 4 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 40, 0, true, true));
-                case 5 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 40, 0, true, true));
-                case 6 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 40, 0, true, true));
-                case 7 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 40, 0, true, true));
-                case 8 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 40, 0, true, true));
-                case 9 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 40, 0, true, true));
-                case 10 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 40, 0, true, true));
-                case 11 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 40, 0, true, true));
+                case 1 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0, true, true));
+                case 2 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 40, 0, true, true));
+                case 3 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 40, 0, true, true));
+                case 4 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 40, 0, true, true));
+                case 5 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 40, 0, true, true));
+                case 6 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 40, 0, true, true));
+                case 7 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 40, 0, true, true));
+                case 8 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 40, 0, true, true));
+                case 9 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 40, 0, true, true));
             }
         }
     }
