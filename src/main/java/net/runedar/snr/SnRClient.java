@@ -36,7 +36,7 @@ public class SnRClient implements ClientModInitializer{
             
             );
             ScreenRegistry.register(SnR.BOX_SCREEN_HANDLER, BoxScreen::new);
-            ScreenRegistry.register(SnR.SCREEN_HANDLER_TYPE, (gui, inventory, title) -> new StatueScreen(gui, inventory.player, title));
+            ScreenRegistry.<StatueScreenGUI, StatueScreen>register(SnR.SCREEN_HANDLER_TYPE, (gui, inventory, title) -> new StatueScreen(gui, inventory.player, title));
 
       }
 }

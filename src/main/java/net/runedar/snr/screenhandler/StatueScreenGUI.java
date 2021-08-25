@@ -16,7 +16,7 @@ public class StatueScreenGUI extends SyncedGuiDescription {
 
         WGridPanel root = new WGridPanel();
         setRootPanel(root);
-        root.setSize(300, 200);
+        root.setSize(100, 80);
         root.setInsets(Insets.ROOT_PANEL);
 
         WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
