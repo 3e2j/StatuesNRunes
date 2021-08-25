@@ -10,7 +10,6 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -18,6 +17,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -28,6 +28,8 @@ import net.runedar.snr.blocks.blockentities.MasonBlockEntity;
 import net.runedar.snr.registry.ModItems;
 
 public class StatueBlock extends BlockWithEntity implements Waterloggable{
+    public static final Identifier ID = new Identifier("statuesnrunes", "statue_block");
+
     public StatueBlock() {
         super(FabricBlockSettings.of(Material.STONE)
                 .strength(1.5f, 0.6f)
@@ -81,14 +83,8 @@ public class StatueBlock extends BlockWithEntity implements Waterloggable{
         if (item.equals(ModItems.CHISEL)) {
             player.playSound(SoundEvents.UI_STONECUTTER_TAKE_RESULT, 1.0F, 1.0F);
             if (!world.isClient) {
-                //This will call the createScreenHandlerFactory method from BlockWithEntity, which will return our blockEntity casted to
-                //a namedScreenHandlerFactory. If your block class does not extend BlockWithEntity, it needs to implement createScreenHandlerFactory.
-                NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-
-                if (screenHandlerFactory != null) {
-                    //With this call the server will request the client to open the appropriate Screenhandler
-                    player.openHandledScreen(screenHandlerFactory);
-                }
+                player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
+                return ActionResult.SUCCESS;
             }
         }
         return ActionResult.SUCCESS;

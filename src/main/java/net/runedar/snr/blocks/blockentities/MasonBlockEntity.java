@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
@@ -17,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.runedar.snr.registry.ModBlocks;
 import net.runedar.snr.screenhandler.InventoryCode;
-import net.runedar.snr.screenhandler.StatueScreenHandler;
+import net.runedar.snr.screenhandler.StatueScreenGUI;
 
 public class MasonBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, InventoryCode, SidedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
@@ -32,17 +33,17 @@ public class MasonBlockEntity extends BlockEntity implements NamedScreenHandlerF
     public DefaultedList<ItemStack> getItems() {
         return inventory;
     }
- 
+
     @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new StatueScreenHandler(syncId, playerInventory, this);
+    public ScreenHandler createMenu(int syncId, PlayerInventory inventory, PlayerEntity player) {
+        return new StatueScreenGUI(syncId, inventory, ScreenHandlerContext.create(world, pos));
     }
- 
+
     @Override
     public Text getDisplayName() {
         return new TranslatableText(getCachedState().getBlock().getTranslationKey());
     }
- 
+
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
