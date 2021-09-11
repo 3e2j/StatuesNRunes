@@ -21,6 +21,7 @@ public class SnRClient implements ClientModInitializer{
             ModBlocks.AXOLOTL_STATUE,
             ModBlocks.BLAZE_STATUE,
             ModBlocks.STEVE_STATUE,
+            ModBlocks.SLIME_STATUE,
             ModBlocks.PARROT_STATUE
             
             );
@@ -32,6 +33,7 @@ public class SnRClient implements ClientModInitializer{
             ModBlocks.AXOLOTL_STATUE,
             ModBlocks.BLAZE_STATUE,
             ModBlocks.STEVE_STATUE,
+            ModBlocks.SLIME_STATUE,
             ModBlocks.PARROT_STATUE
             
             );

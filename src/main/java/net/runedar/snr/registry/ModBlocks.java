@@ -17,9 +17,11 @@ public class ModBlocks {
             public static final Block AXOLOTL_STATUE = new AxolotlStatueBlock();
             public static final Block BLAZE_STATUE = new BlazeStatueBlock();
             public static final Block STEVE_STATUE = new SteveStatueBlock();
+            public static final Block SLIME_STATUE = new SlimeStatueBlock();
             public static final Block PARROT_STATUE = new ParrotStatueBlock();
 
-            //Blocks
+
+    //Blocks
             public static BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY;
 
       public static void registerBlocks(){
@@ -30,6 +32,7 @@ public class ModBlocks {
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "axolotl_statue"), AXOLOTL_STATUE);
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "blaze_statue"), BLAZE_STATUE);
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "steve_statue"), STEVE_STATUE);
+            Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "slime_statue"), SLIME_STATUE);
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "parrot_statue"), PARROT_STATUE);
 
             STATUE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "statesnrunes:carved_statue", FabricBlockEntityTypeBuilder.create(StatueBlockEntity::new,
@@ -40,6 +43,7 @@ public class ModBlocks {
             AXOLOTL_STATUE,
             BLAZE_STATUE,
             STEVE_STATUE,
+            SLIME_STATUE,
             PARROT_STATUE
 
             ).build(null));
