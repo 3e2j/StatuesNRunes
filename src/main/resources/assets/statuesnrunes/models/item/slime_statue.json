@@ -1,0 +1,20 @@
+{
+      "parent": "statuesnrunes:block/slime_statue",
+      "display": {
+
+        "gui": {
+            "rotation": [ 0, 135, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 1, 1, 1 ]
+        },
+        "thirdperson_righthand": {
+            "scale":[ 0.70, 0.70, 0.70 ]
+        },
+        "thirdperson_lefthand": {
+            "scale":[ 0.70, 0.70, 0.70 ]
+        },
+        "ground": {
+            "scale":[ 0.70, 0.70, 0.70 ]
+        }
+    }
+}
