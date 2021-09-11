@@ -21,10 +21,6 @@ public class Chisel extends Item {
     @Override
     //rightclick does something
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
-        
-        
-
-
     return TypedActionResult.success(playerEntity.getStackInHand(hand));
 
     }

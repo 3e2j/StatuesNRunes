@@ -4,15 +4,12 @@
   "version": "${version}",
 
   "name": "Statues And Runes",
-  "description": "Make cool statues and enchant them with powerful runes that can give you and other players buffs and debuffs.",
+  "description": "Make cool statues with powerful runes that can give you and other players buffs and debuffs.",
   "authors": [
-    "Runedar",
     "hat",
     "CorruptedPhoen1x"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
 
   "license": "MIT",

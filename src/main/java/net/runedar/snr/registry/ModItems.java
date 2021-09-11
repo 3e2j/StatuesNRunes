@@ -8,11 +8,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.runedar.snr.items.*;
 
-import java.security.PublicKey;
-
 public class ModItems {
-            //Statue Block
-            public static final Item STATUE_BLOCK = new BlockItem(ModBlocks.STATUE_BLOCK, new Item.Settings().group(SnR.TAB));
 
             //statues
             //Put in alphebetical order - appears this way in the tab
@@ -38,9 +34,6 @@ public class ModItems {
             public static final Item RUNE_SLOWFALL = new RuneSlowFall(new FabricItemSettings().group(SnR.TAB).maxCount(16));
 
       public static void registerItems(){
-
-            //Blocks
-            Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "statue_block"), STATUE_BLOCK);
 
             //Statues
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "chicken_statue"), CHICKEN_STATUE);
