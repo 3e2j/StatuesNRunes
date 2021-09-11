@@ -64,7 +64,13 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         ItemStack itemStack = blockEntity.inventory.get(0);
         if (blockEntity.itemin <= 0) {
                 if (itemStack.isOf(ModItems.RUNE_LEVITATION)) {
-                    blockEntity.itemin = 1;
+                    if (
+                    (state.isOf(ModBlocks.AXOLOTL_STATUE)) ||
+                    (state.isOf(ModBlocks.PARROT_STATUE)) ||
+                    (state.isOf(ModBlocks.CHICKEN_STATUE))
+                    ){
+                        blockEntity.itemin = 1;
+                    }
                 }
                 if (itemStack.isOf(ModItems.RUNE_SLOWFALL)) {
                     blockEntity.itemin = 2;
