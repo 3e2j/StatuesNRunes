@@ -1,5 +1,5 @@
 {
-      "parent": "statuesnrunes:block/steve_statue",
+      "parent": "statuesnrunes:block/statue/steve/steve_statue",
       "display": {
 
         "gui": {

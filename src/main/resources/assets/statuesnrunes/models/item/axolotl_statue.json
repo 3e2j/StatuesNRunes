@@ -1,5 +1,5 @@
 {
-      "parent": "statuesnrunes:block/axolotl_statue",
+      "parent": "statuesnrunes:block/statue/axolotl/axolotl_statue",
       "display": {
 
         "gui": {

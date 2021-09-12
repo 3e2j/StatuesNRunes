@@ -1,5 +1,5 @@
 {
-      "parent": "statuesnrunes:block/blaze_statue",
+      "parent": "statuesnrunes:block/statue/blaze/blaze_statue",
       "display": {
 
         "gui": {

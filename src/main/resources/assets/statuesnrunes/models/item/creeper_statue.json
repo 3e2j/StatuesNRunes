@@ -1,5 +1,5 @@
 {
-      "parent": "statuesnrunes:block/creeper_statue",
+      "parent": "statuesnrunes:block/statue/creeper/creeper_statue",
       "display": {
 
         "gui": {

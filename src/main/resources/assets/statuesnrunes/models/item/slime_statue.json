@@ -1,5 +1,5 @@
 {
-      "parent": "statuesnrunes:block/slime_statue",
+      "parent": "statuesnrunes:block/statue/slime/slime_statue",
       "display": {
 
         "gui": {

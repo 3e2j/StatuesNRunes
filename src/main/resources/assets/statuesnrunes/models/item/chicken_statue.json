@@ -1,5 +1,5 @@
 {
-      "parent": "statuesnrunes:block/chicken_statue",
+      "parent": "statuesnrunes:block/statue/chicken/chicken_statue",
       "display": {
 
         "gui": {

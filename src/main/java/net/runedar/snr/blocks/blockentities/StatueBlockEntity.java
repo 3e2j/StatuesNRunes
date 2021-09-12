@@ -33,6 +33,7 @@ import java.util.List;
 
 
 public class StatueBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, InventoryCode, SidedInventory{
+    public int pose;
     public int itemin;
     public int sound;
     @Nullable
@@ -51,7 +52,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         return inventory;
  
     }
- 
+
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
         return new BoxScreenHandler(syncId, playerInventory, this);
@@ -92,36 +93,58 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                     (state.isOf(ModBlocks.CHICKEN_STATUE))
                     ){
                         blockEntity.itemin = 1;
+                        if (blockEntity.sound == 0) {
+                            blockEntity.sound = 1;
+                        }
                     }
                 }
                 if (itemStack.isOf(ModItems.RUNE_SLOWFALL)) {
                     blockEntity.itemin = 2;
+                    if (blockEntity.sound == 0) {
+                        blockEntity.sound = 1;
+                    }
                 }
                 if (itemStack.isOf(ModItems.RUNE_NIGHTVISION)) {
                     blockEntity.itemin = 3;
+                    if (blockEntity.sound == 0) {
+                        blockEntity.sound = 1;
+                    }
                 }
                 if (itemStack.isOf(ModItems.RUNE_GLOWING)) {
                     blockEntity.itemin = 4;
+                    if (blockEntity.sound == 0) {
+                        blockEntity.sound = 1;
+                    }
                 }
                 if (itemStack.isOf(ModItems.RUNE_HEALTHBOOST)) {
                     blockEntity.itemin = 5;
+                    if (blockEntity.sound == 0) {
+                        blockEntity.sound = 1;
+                    }
                 }
                 if (itemStack.isOf(ModItems.RUNE_ABSORPTION)) {
                     blockEntity.itemin = 6;
+                    if (blockEntity.sound == 0) {
+                        blockEntity.sound = 1;
+                    }
                 }
                 if (itemStack.isOf(ModItems.RUNE_FIRERESISTANCE)) {
                     blockEntity.itemin = 7;
+                    if (blockEntity.sound == 0) {
+                        blockEntity.sound = 1;
+                    }
                 }
                 if (itemStack.isOf(ModItems.RUNE_JUMPBOOST)) {
                     blockEntity.itemin = 8;
+                    if (blockEntity.sound == 0) {
+                        blockEntity.sound = 1;
+                    }
                 }
                 if (itemStack.isOf(ModItems.RUNE_INVISIBILITY)) {
                     blockEntity.itemin = 9;
-                }
-
-                //Sounds
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
+                    if (blockEntity.sound == 0) {
+                        blockEntity.sound = 1;
+                    }
                 }
         }
         else {
@@ -163,6 +186,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
         this.itemin = nbt.getByte("ItemIn");
+        pose = nbt.getByte("Pose");
     }
 
     @Override
@@ -170,6 +194,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
         nbt.putByte("ItemIn", (byte)this.itemin);
+        nbt.putByte("Pose", (byte) pose);
         return nbt;
     }
 

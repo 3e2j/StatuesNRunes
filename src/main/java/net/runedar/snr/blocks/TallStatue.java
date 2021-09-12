@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -23,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.WorldView;
+import net.runedar.snr.registry.ModItems;
 import org.jetbrains.annotations.Nullable;
 @SuppressWarnings("deprecation")
 /* - Append from Hat
@@ -78,6 +80,8 @@ public abstract class TallStatue extends StatueMain implements Waterloggable {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         DoubleBlockHalf doubleBlockHalf = state.get(HALF);
+        ItemStack itemStack = player.getStackInHand(hand);
+        Item item = itemStack.getItem();
         if (!world.isClient)    {
             NamedScreenHandlerFactory screenHandlerFactory;
             if (doubleBlockHalf == DoubleBlockHalf.LOWER){
@@ -86,7 +90,9 @@ public abstract class TallStatue extends StatueMain implements Waterloggable {
                 screenHandlerFactory = state.createScreenHandlerFactory(world, pos.down());
                 }
             if (screenHandlerFactory != null) {
-                player.openHandledScreen(screenHandlerFactory);
+                if (!item.equals(ModItems.CHISEL)) {
+                    player.openHandledScreen(screenHandlerFactory);
+                }
             }
         }
         return ActionResult.SUCCESS;

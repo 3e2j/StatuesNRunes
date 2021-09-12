@@ -1,8 +1,40 @@
 {
-      "variants": {
-          "facing=north": { "model": "statuesnrunes:block/slime_statue" , "y" : 0},
-          "facing=east": { "model": "statuesnrunes:block/slime_statue" , "y" : 90},
-          "facing=south": { "model": "statuesnrunes:block/slime_statue" , "y" : 180},
-          "facing=west": { "model": "statuesnrunes:block/slime_statue" , "y" : 270}
+  "variants": {
+    "pose=1": {
+      "facing=north": {
+        "model": "statuesnrunes:block/statue/slime/slime_statue",
+        "y": 0
+      },
+      "facing=east": {
+        "model": "statuesnrunes:block/statue/slime/slime_statue",
+        "y": 90
+      },
+      "facing=south": {
+        "model": "statuesnrunes:block/statue/slime/slime_statue",
+        "y": 180
+      },
+      "facing=west": {
+        "model": "statuesnrunes:block/statue/slime/slime_statue",
+        "y": 270
       }
+    },
+    "pose=2": {
+      "facing=north": {
+        "model": "statuesnrunes:block/statue/slime/magmacube_statue",
+        "y": 0
+      },
+      "facing=east": {
+        "model": "statuesnrunes:block/statue/slime/magmacube_statue",
+        "y": 90
+      },
+      "facing=south": {
+        "model": "statuesnrunes:block/statue/slime/magmacube_statue",
+        "y": 180
+      },
+      "facing=west": {
+        "model": "statuesnrunes:block/statue/slime/magmacube_statue",
+        "y": 270
+      }
+    }
   }
+}

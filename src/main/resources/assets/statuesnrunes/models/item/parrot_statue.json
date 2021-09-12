@@ -1,5 +1,5 @@
 {
-      "parent": "statuesnrunes:block/parrot_statue",
+      "parent": "statuesnrunes:block/statue/parrot/parrot_statue",
       "display": {
 
         "gui": {

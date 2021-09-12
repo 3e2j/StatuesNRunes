@@ -7,7 +7,9 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.StateManager;
@@ -28,13 +30,14 @@ import net.minecraft.world.WorldAccess;
 import net.runedar.snr.blocks.blockentities.BlockEntityHost;
 import net.runedar.snr.blocks.blockentities.StatueBlockEntity;
 import net.runedar.snr.registry.ModBlocks;
+import net.runedar.snr.registry.ModItems;
 
 @SuppressWarnings("deprecation")
 public class StatueMain extends BlockWithEntity implements Waterloggable, BlockEntityHost<StatueBlockEntity> {
 
     public static final BooleanProperty WATERLOGGED;
-	public static final DirectionProperty              FACING;
-    static        VoxelShape                     VOXEL_SHAPE_CUBE;
+	public static final DirectionProperty FACING;
+    static VoxelShape VOXEL_SHAPE_CUBE;
 
       public StatueMain(Settings settings) {
         super(settings);
@@ -96,14 +99,18 @@ public class StatueMain extends BlockWithEntity implements Waterloggable, BlockE
     //Work Your Magic Jhonny! Bring me that GUI!
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        ItemStack itemStack = player.getStackInHand(hand);
+        Item item = itemStack.getItem();
         if (!world.isClient)    {
             //This will call the createScreenHandlerFactory method from BlockWithEntity, which will return our blockEntity casted to
             //a namedScreenHandlerFactory. If your block class does not extend BlockWithEntity, it needs to implement createScreenHandlerFactory.
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
  
             if (screenHandlerFactory != null) {
-                //With this call the server will request the client to open the appropriate Screenhandler
-                player.openHandledScreen(screenHandlerFactory);
+                if (!item.equals(ModItems.CHISEL)) {
+                    //With this call the server will request the client to open the appropriate Screenhandler
+                    player.openHandledScreen(screenHandlerFactory);
+                }
             }
         }
         return ActionResult.SUCCESS;

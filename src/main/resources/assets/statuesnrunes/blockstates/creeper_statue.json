@@ -1,9 +1,9 @@
 {
       "variants": {
-          "facing=north,half=lower": { "model": "statuesnrunes:block/creeper_statue" , "y" : 0},
-          "facing=east,half=lower": { "model": "statuesnrunes:block/creeper_statue" , "y" : 90},
-          "facing=south,half=lower": { "model": "statuesnrunes:block/creeper_statue" , "y" : 180},
-          "facing=west,half=lower": { "model": "statuesnrunes:block/creeper_statue" , "y" : 270},
+          "facing=north,half=lower": { "model": "statuesnrunes:block/statue/creeper/creeper_statue" , "y" : 0},
+          "facing=east,half=lower": { "model": "statuesnrunes:block/statue/creeper/creeper_statue" , "y" : 90},
+          "facing=south,half=lower": { "model": "statuesnrunes:block/statue/creeper/creeper_statue" , "y" : 180},
+          "facing=west,half=lower": { "model": "statuesnrunes:block/statue/creeper/creeper_statue" , "y" : 270},
           "facing=north,half=upper": { "model": "statuesnrunes:block/blank" , "y" : 0},
           "facing=east,half=upper": { "model": "statuesnrunes:block/blank" , "y" : 90},
           "facing=south,half=upper": { "model": "statuesnrunes:block/blank" , "y" : 180},
