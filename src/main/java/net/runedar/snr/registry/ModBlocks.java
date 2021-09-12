@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import org.lwjgl.system.CallbackI;
 
 public class ModBlocks {
 
@@ -19,6 +20,7 @@ public class ModBlocks {
             public static final Block STEVE_STATUE = new SteveStatueBlock();
             public static final Block SLIME_STATUE = new SlimeStatueBlock();
             public static final Block PARROT_STATUE = new ParrotStatueBlock();
+            public static final Block PIG_STATUE = new PigStatueBlock();
 
 
     //Blocks
@@ -34,6 +36,7 @@ public class ModBlocks {
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "steve_statue"), STEVE_STATUE);
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "slime_statue"), SLIME_STATUE);
             Registry.register(Registry.BLOCK, new Identifier (SnR.MODID, "parrot_statue"), PARROT_STATUE);
+            Registry.register(Registry.BLOCK, new Identifier(SnR.MODID, "pig_statue"), PIG_STATUE);
 
             STATUE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "statesnrunes:carved_statue", FabricBlockEntityTypeBuilder.create(StatueBlockEntity::new,
             
@@ -44,7 +47,8 @@ public class ModBlocks {
             BLAZE_STATUE,
             STEVE_STATUE,
             SLIME_STATUE,
-            PARROT_STATUE
+            PARROT_STATUE,
+            PIG_STATUE
 
             ).build(null));
       }

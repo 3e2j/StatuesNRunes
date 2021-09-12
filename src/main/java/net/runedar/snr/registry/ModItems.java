@@ -19,6 +19,7 @@ public class ModItems {
             public static final Item STEVE_STATUE = new BlockItem(ModBlocks.STEVE_STATUE, new Item.Settings().group(SnR.TAB));
             public static final Item SLIME_STATUE = new BlockItem(ModBlocks.SLIME_STATUE, new Item.Settings().group(SnR.TAB));
             public static final Item PARROT_STATUE = new BlockItem(ModBlocks.PARROT_STATUE, new Item.Settings().group(SnR.TAB));
+            public static final Item PIG_STATUE = new BlockItem(ModBlocks.PIG_STATUE, new Item.Settings().group(SnR.TAB));
 
             //Items
             public static final Item CHISEL = new Chisel(new FabricItemSettings().group(SnR.TAB).maxCount(1));
@@ -44,6 +45,7 @@ public class ModItems {
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "steve_statue"), STEVE_STATUE);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "slime_statue"), SLIME_STATUE);
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "parrot_statue"), PARROT_STATUE);
+          Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "pig_statue"), PIG_STATUE);
 
             //Items
             Registry.register(Registry.ITEM, new Identifier(SnR.MODID, "chisel"), CHISEL);

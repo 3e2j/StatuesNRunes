@@ -1,0 +1,27 @@
+{
+      "parent": "statuesnrunes:block/pig_statue",
+      "display": {
+
+        "gui": {
+            "rotation": [ 0, 135, 0 ],
+            "translation": [ 1, -2, 0 ],
+            "scale": [ 0.6, 0.6, 0.6 ]
+        },
+        "thirdperson_righthand": {
+            "scale":[ 0.60, 0.60, 0.60 ]
+        },
+        "thirdperson_lefthand": {
+            "scale":[ 0.60, 0.60, 0.60 ]
+        },
+        "firstperson_lefthand": {
+            "translation": [ 0, 2, 0 ]
+        },
+        "firstperson_righthand": {
+            "translation": [ 0, 2, 0 ]
+        },
+        "ground": {
+            "scale":[ 0.70, 0.70, 0.70 ],
+            "translation": [ 0, 4, 0 ]
+        }
+    }
+}

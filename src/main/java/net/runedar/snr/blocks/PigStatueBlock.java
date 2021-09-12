@@ -12,8 +12,8 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 
-public class SlimeStatueBlock extends StatueMain{
-      public SlimeStatueBlock() {
+public class PigStatueBlock extends StatueMain{
+      public PigStatueBlock() {
       super(FabricBlockSettings.of(Material.STONE)
 	      .strength(1.5f, 0.6f)
 	      .breakByTool(FabricToolTags.PICKAXES)
@@ -35,7 +35,7 @@ public class SlimeStatueBlock extends StatueMain{
 	    }
 	}
 	static {
-		VOXEL_SHAPE_NORTH = VoxelShapes.cuboid(0.2f, 0f, 0.1f, 0.8f, 0.5f, 0.9f);
-		VOXEL_SHAPE_WEST = VoxelShapes.cuboid(0.1f, 0f, 0.2f, 0.8f, 0.5f, 0.8f);
+		VOXEL_SHAPE_NORTH = VoxelShapes.cuboid(0f, 0f, 0f, 1f, 1f, 1f);
+		VOXEL_SHAPE_WEST = VoxelShapes.cuboid(0f, 0f, 0f, 1f, 1f, 1f);
 	}
 }
