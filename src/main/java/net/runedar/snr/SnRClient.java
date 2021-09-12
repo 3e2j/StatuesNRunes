@@ -23,7 +23,8 @@ public class SnRClient implements ClientModInitializer{
             ModBlocks.STEVE_STATUE,
             ModBlocks.SLIME_STATUE,
             ModBlocks.PARROT_STATUE,
-            ModBlocks.PIG_STATUE
+            ModBlocks.PIG_STATUE,
+            ModBlocks.BEE_STATUE
             
             );
 
@@ -36,7 +37,8 @@ public class SnRClient implements ClientModInitializer{
             ModBlocks.STEVE_STATUE,
             ModBlocks.SLIME_STATUE,
             ModBlocks.PARROT_STATUE,
-            ModBlocks.PIG_STATUE
+            ModBlocks.PIG_STATUE,
+            ModBlocks.BEE_STATUE
             
             );
             ScreenRegistry.register(SnR.BOX_SCREEN_HANDLER, BoxScreen::new);
