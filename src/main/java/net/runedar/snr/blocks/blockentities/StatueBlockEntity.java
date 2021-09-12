@@ -9,11 +9,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleType;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
@@ -40,12 +46,11 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     StatusEffect primary;
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
+
     public StatueBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.STATUE_BLOCK_ENTITY, pos, state);
 
     }
-
-    public void poses() { this.pose += 1; }
 
     //From the ImplementedInventory Interface
  
@@ -66,6 +71,22 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     }
 
 
+    public void poses() {
+        this.pose += 1;
+        /**
+         * NBT! Ah, isn't it fantastic?
+         * This is the NBT for Poses where you can change the max value it can reach
+         * eg: slime only has two poses, therefore its max is 3.
+         * HOWEVER - remember that 0 is also a pose here, so ITS MAX IS 2
+         */
+        if (this.pose == 2 &&
+                this.getCachedState().isOf(ModBlocks.SLIME_STATUE)
+        )
+        {this.pose = 0;}
+        // Swish Swoosh
+        world.playSound(null, pos, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundCategory.BLOCKS, 1f, 1f);
+        world.addParticle(new ItemStackParticleEffect(ParticleTypes.ITEM, new ItemStack(Items.STONE)), 0, 0, 0, 1D, 1D, 1D);
+    }
 
 
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
@@ -154,6 +175,9 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         else {
             blockEntity.itemin = 0;
             }
+
+
+
         applyPlayerEffects(world, pos, blockEntity.itemin);
         markDirty(world, pos, state);
     }

@@ -10,12 +10,12 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -39,6 +39,7 @@ public class StatueMain extends BlockWithEntity implements Waterloggable, BlockE
     public static final BooleanProperty WATERLOGGED;
 	public static final DirectionProperty FACING;
     static VoxelShape VOXEL_SHAPE_CUBE;
+    public static final IntProperty POSE = IntProperty.of("pose", 0 , 10);
 
     public StatueMain(Settings settings) {
         super(settings);
@@ -48,7 +49,7 @@ public class StatueMain extends BlockWithEntity implements Waterloggable, BlockE
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
-        stateManager.add(Properties.HORIZONTAL_FACING,WATERLOGGED);
+        stateManager.add(Properties.HORIZONTAL_FACING,WATERLOGGED,POSE);
     }
 
     @Override
@@ -116,6 +117,7 @@ public class StatueMain extends BlockWithEntity implements Waterloggable, BlockE
             }
             if (item.equals(ModItems.CHISEL)) {
                 blockEntity.poses();
+                world.setBlockState(pos, state.with(POSE, blockEntity.pose));
             }
         }
         return ActionResult.SUCCESS;
