@@ -2,8 +2,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 32],
 	"textures": {
-		"0": "statuesnrunes:block/magmacube_statue",
-		"particle": "block/stone"
+		"0": "statuesnrunes/magmacube_statue"
 	},
 	"elements": [
 		{
@@ -122,6 +121,30 @@
 				"up": {"uv": [4, 7.5, 2, 3.5], "texture": "#0"},
 				"down": {"uv": [6, 3.5, 4, 7.5], "texture": "#0"}
 			}
+		},
+		{
+			"from": [9, 4, 3],
+			"to": [11, 5, 4],
+			"faces": {
+				"north": {"uv": [8.25, 13.5, 8.75, 14], "texture": "#0"},
+				"east": {"uv": [8.25, 13.5, 8.5, 14], "texture": "#0"},
+				"south": {"uv": [8.25, 13.5, 8.75, 14], "texture": "#0"},
+				"west": {"uv": [8.5, 13.5, 8.75, 14], "texture": "#0"},
+				"up": {"uv": [8.25, 13.5, 8.75, 14], "rotation": 180, "texture": "#0"},
+				"down": {"uv": [8.25, 13.5, 8.75, 14], "rotation": 180, "texture": "#0"}
+			}
+		},
+		{
+			"from": [5, 4, 3],
+			"to": [7, 5, 4],
+			"faces": {
+				"north": {"uv": [9.25, 13.5, 9.75, 14], "texture": "#0"},
+				"east": {"uv": [9.25, 13.5, 9.5, 14], "texture": "#0"},
+				"south": {"uv": [9.25, 13.5, 9.75, 14], "texture": "#0"},
+				"west": {"uv": [9.5, 13.5, 9.75, 14], "texture": "#0"},
+				"up": {"uv": [9.25, 13.5, 9.75, 14], "texture": "#0"},
+				"down": {"uv": [9.25, 13.5, 9.75, 14], "texture": "#0"}
+			}
 		}
 	],
 	"groups": [
@@ -179,6 +202,5 @@
 					"children": [8]
 				}
 			]
-		}
-	]
+		}, 9, 10]
 }
