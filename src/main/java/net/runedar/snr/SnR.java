@@ -26,6 +26,7 @@ public class SnR implements ModInitializer {
 		ModBlockEntityType.registerBlockEntities();
 		ModBlocks.registerBlocks();
 		ModItems.registerItems();
-	}	
+		ModSounds.registerSounds();
+	}
   }
   
