@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.WorldView;
+import net.runedar.snr.blocks.blockentities.StatueBlockEntity;
 import net.runedar.snr.registry.ModItems;
 import org.jetbrains.annotations.Nullable;
 @SuppressWarnings("deprecation")
@@ -82,6 +83,7 @@ public abstract class TallStatue extends StatueMain implements Waterloggable {
         DoubleBlockHalf doubleBlockHalf = state.get(HALF);
         ItemStack itemStack = player.getStackInHand(hand);
         Item item = itemStack.getItem();
+        StatueBlockEntity blockEntity = (StatueBlockEntity) world.getBlockEntity(pos);
         if (!world.isClient)    {
             NamedScreenHandlerFactory screenHandlerFactory;
             if (doubleBlockHalf == DoubleBlockHalf.LOWER){
@@ -93,6 +95,9 @@ public abstract class TallStatue extends StatueMain implements Waterloggable {
                 if (!item.equals(ModItems.CHISEL)) {
                     player.openHandledScreen(screenHandlerFactory);
                 }
+            }
+            if (item.equals(ModItems.CHISEL)) {
+                blockEntity.poses();
             }
         }
         return ActionResult.SUCCESS;

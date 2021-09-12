@@ -10,6 +10,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.state.StateManager;
@@ -39,7 +40,7 @@ public class StatueMain extends BlockWithEntity implements Waterloggable, BlockE
 	public static final DirectionProperty FACING;
     static VoxelShape VOXEL_SHAPE_CUBE;
 
-      public StatueMain(Settings settings) {
+    public StatueMain(Settings settings) {
         super(settings);
       //Rotation + Visual Fix
       setDefaultState(this.stateManager.getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(WATERLOGGED, false));
@@ -101,6 +102,7 @@ public class StatueMain extends BlockWithEntity implements Waterloggable, BlockE
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack itemStack = player.getStackInHand(hand);
         Item item = itemStack.getItem();
+        StatueBlockEntity blockEntity = (StatueBlockEntity) world.getBlockEntity(pos);
         if (!world.isClient)    {
             //This will call the createScreenHandlerFactory method from BlockWithEntity, which will return our blockEntity casted to
             //a namedScreenHandlerFactory. If your block class does not extend BlockWithEntity, it needs to implement createScreenHandlerFactory.
@@ -111,6 +113,9 @@ public class StatueMain extends BlockWithEntity implements Waterloggable, BlockE
                     //With this call the server will request the client to open the appropriate Screenhandler
                     player.openHandledScreen(screenHandlerFactory);
                 }
+            }
+            if (item.equals(ModItems.CHISEL)) {
+                blockEntity.poses();
             }
         }
         return ActionResult.SUCCESS;
