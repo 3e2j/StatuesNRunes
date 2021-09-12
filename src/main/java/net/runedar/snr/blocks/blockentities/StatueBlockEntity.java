@@ -33,9 +33,9 @@ import java.util.List;
 
 
 public class StatueBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, InventoryCode, SidedInventory{
-    public int pose;
     public int itemin;
     public int sound;
+    public int pose;
     @Nullable
     StatusEffect primary;
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
@@ -44,6 +44,8 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         super(ModBlocks.STATUE_BLOCK_ENTITY, pos, state);
 
     }
+
+    public void poses() { this.pose += 1; }
 
     //From the ImplementedInventory Interface
  
@@ -62,6 +64,8 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public Text getDisplayName() {
         return new TranslatableText(getCachedState().getBlock().getTranslationKey());
     }
+
+
 
 
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
@@ -148,25 +152,22 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                 }
         }
         else {
-            if (blockEntity.sound == 3){
-                blockEntity.sound = 2;
-            }
             blockEntity.itemin = 0;
-        }
-        markDirty(world, pos, state);
+            }
         applyPlayerEffects(world, pos, blockEntity.itemin);
+        markDirty(world, pos, state);
     }
 
-    private static void applyPlayerEffects(World world, BlockPos pos, int itemin) {
-        double d = 20;
-        Box box = (new Box(pos)).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
-        List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
-        Iterator<PlayerEntity> var1 = list.iterator();
+        private static void applyPlayerEffects(World world, BlockPos pos, int itemin) {
+            double d = 20;
+            Box box = (new Box(pos)).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
+            List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
+            Iterator<PlayerEntity> var1 = list.iterator();
 
-        PlayerEntity playerEntity;
-        while (var1.hasNext()) {
-            playerEntity = var1.next();
-            switch (itemin) {
+            PlayerEntity playerEntity;
+            while (var1.hasNext()) {
+                playerEntity = var1.next();
+                switch (itemin) {
                 case 1 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0, true, true));
                 case 2 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 40, 0, true, true));
                 case 3 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 40, 0, true, true));
@@ -180,21 +181,21 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         }
     }
 
- 
+
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, this.inventory);
+        this.pose = nbt.getByte("Pose");
         this.itemin = nbt.getByte("ItemIn");
-        pose = nbt.getByte("Pose");
     }
 
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
+        nbt.putByte("Pose", (byte)this.pose);
         nbt.putByte("ItemIn", (byte)this.itemin);
-        nbt.putByte("Pose", (byte) pose);
         return nbt;
     }
 
