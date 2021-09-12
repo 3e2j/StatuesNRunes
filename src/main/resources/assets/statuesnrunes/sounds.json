@@ -1,0 +1,12 @@
+{
+  "block.statue.activate": {
+    "sounds": [
+      "statuesnrunes:block/statue/activate"
+    ]
+  },
+  "block.statue.deactivate": {
+    "sounds": [
+      "statuesnrunes:block/statue/deactivate"
+    ]
+  }
+}

@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
@@ -22,6 +23,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.runedar.snr.registry.ModBlocks;
 import net.runedar.snr.registry.ModItems;
+import net.runedar.snr.registry.ModSounds;
 import net.runedar.snr.screenhandler.BoxScreenHandler;
 import net.runedar.snr.screenhandler.InventoryCode;
 import org.jetbrains.annotations.Nullable;
@@ -32,6 +34,7 @@ import java.util.List;
 
 public class StatueBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, InventoryCode, SidedInventory{
     public int itemin;
+    public int sound;
     @Nullable
     StatusEffect primary;
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
@@ -62,7 +65,26 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
 
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
         ItemStack itemStack = blockEntity.inventory.get(0);
-        if (blockEntity.itemin <= 0) {
+        /**
+         * Sounds are here, they deal with activation and deactivation, if you are to come back to this for a corruption esc
+         * sound, this is where to put it. Just put it >=4 due to case 3 being an empty clause for no sound but registering that
+         * a sound has still been played to the player.
+         */
+        switch (blockEntity.sound) {
+            case 1 -> {
+                world.playSound(null, pos, ModSounds.BLOCK_STATUE_ACTIVATE, SoundCategory.BLOCKS, 1f, 1f);
+                blockEntity.sound = 3;
+            }
+            case 2 -> {
+                world.playSound(null, pos, ModSounds.BLOCK_STATUE_DEACTIVATE, SoundCategory.BLOCKS, 1f, 1f);
+                blockEntity.sound = 0;
+            }
+        }
+        /**
+         * Effects. Used to only run when certain items are in statues, basically just assigns an ID based on the type of rune
+         * that is being used. You can keep adding to this.
+         */
+        if (!itemStack.isEmpty()) {
                 if (itemStack.isOf(ModItems.RUNE_LEVITATION)) {
                     if (
                     (state.isOf(ModBlocks.AXOLOTL_STATUE)) ||
@@ -96,8 +118,16 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                 if (itemStack.isOf(ModItems.RUNE_INVISIBILITY)) {
                     blockEntity.itemin = 9;
                 }
+
+                //Sounds
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
         }
-        else if (itemStack.isEmpty()) {
+        else {
+            if (blockEntity.sound == 3){
+                blockEntity.sound = 2;
+            }
             blockEntity.itemin = 0;
         }
         markDirty(world, pos, state);
