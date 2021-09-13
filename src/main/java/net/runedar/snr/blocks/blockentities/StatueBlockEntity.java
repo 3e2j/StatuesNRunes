@@ -1,6 +1,8 @@
 package net.runedar.snr.blocks.blockentities;
 
+import net.minecraft.block.AbstractPlantStemBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.Fertilizable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -10,14 +12,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
-import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -34,10 +35,7 @@ import net.runedar.snr.screenhandler.BoxScreenHandler;
 import net.runedar.snr.screenhandler.InventoryCode;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -47,6 +45,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public int pose;
     @Nullable
     StatusEffect primary;
+    public final Random random = new Random();
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
 
@@ -88,6 +87,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
             this.pose = 0;
         }
         // Swish Swoosh
+        assert world != null;
         world.playSound(null, pos, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundCategory.BLOCKS, 1f, 1f);
         //world.addParticle(new ItemStackParticleEffect(ParticleTypes.ITEM, new ItemStack(Items.STONE)), 0, 0, 0, 1D, 1D, 1D);
     }
@@ -183,12 +183,14 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                 }
             }
         } else {
+            if (blockEntity.sound == 3) {
+                blockEntity.sound = 2;
+            }
             blockEntity.itemin = 0;
         }
 
-
         applyPlayerEffects(world, pos, blockEntity.itemin);
-        specialNonPlayerEffects(world, pos, blockEntity.itemin);
+        specialNonPlayerEffects(world, pos, blockEntity.itemin, blockEntity, state);
         markDirty(world, pos, state);
     }
 
@@ -215,46 +217,59 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         }
     }
 
-    public static void specialNonPlayerEffects(World world, BlockPos pos, int itemin) {
+    public static void specialNonPlayerEffects(World world, BlockPos pos, int itemin, StatueBlockEntity blockEntity, BlockState state) {
         switch (itemin) {
-            case 10 -> plantGrowth(pos, world);
+            case 10 -> plantGrowth(pos, world, world.getRandom(), blockEntity, state);
+            case 11 -> {}
         }
     }
 
-    static List<BlockPos> fertilizable = new ArrayList<>();
-
-    private static void plantGrowth(BlockPos pos, World world) {
+    private static void plantGrowth(BlockPos pos, World world, Random random, StatueBlockEntity blockEntity, BlockState state) {
+        List<BlockPos> fertilizable = new ArrayList<>();
+        ItemStack bonemeal = new ItemStack(Items.BONE_MEAL);
         int block_x = pos.getX();
         int block_z = pos.getZ();
         int block_y = pos.getY();
-        for (int y = -1; y < 2; y++) {
-            for (int x = -1; x < 2; x++) {
-                for (int z = -1; z < 2; z++) {
+        // y2 = y --y + 1
+        for (int y = -3; y < 4; y++) {
+            for (int x = -3; x < 4; x++) {
+                for (int z = -3; z < 4; z++) {
                     BlockPos crop_pos = new BlockPos(block_x + x, block_y + y, block_z + z);
                     BlockState blockState = world.getBlockState(crop_pos);
                     //Check if the block can grow
-                    if (blockState.getBlock() instanceof Fertilizable) {
+                    if (blockState.getBlock() instanceof Fertilizable && !blockState.isOf(Blocks.GRASS_BLOCK)) {
                         fertilizable.add(crop_pos);
 
                     }
                 }
             }
-            ItemStack bonemeal = new ItemStack(Items.BONE_MEAL);
-            if (fertilizable.size() > 0) {
+        }
+        // THIS RANDOM VALUE CHANGES HOW FAST IT ACTS
+        // NEED TO ADD IF IT ISNT FERTILIZABLE = DONT RUN
+            if (fertilizable.size() > 0 && random.nextInt(200) < 1) {
                 BlockPos crop_pos = fertilizable.get(ThreadLocalRandom.current().nextInt(fertilizable.size()));
-                BoneMealItem.useOnFertilizable(bonemeal, world, crop_pos);
-                ParticleS2CPacket particle_packet = new ParticleS2CPacket(
+                //BlockState blockState = world.getBlockState(crop_pos);
+                Fertilizable fertilizable1 = (Fertilizable) world.getBlockState(crop_pos).getBlock();
+                fertilizable1.grow((ServerWorld) world, world.random, crop_pos, world.getBlockState(crop_pos));
+                //((AbstractPlantStemBlock)blockState.getBlock()).grow((ServerWorld) world, random, crop_pos, blockState);
+
+                //BoneMealItem.useOnFertilizable(bonemeal, world, crop_pos);
+                // OUTDATED
+                /*world.addParticle(
                         ParticleTypes.HAPPY_VILLAGER,
-                        false,
                         crop_pos.getX() + 0.5,
                         crop_pos.getY() + 0.5,
                         crop_pos.getZ() + 0.5,
                         0.2F,
                         0.2F,
-                        0.2F,
-                        1.0F,
-                        10);
-            }
+                        0.2F);*/
+                for(int i = 0; i < 5; ++i) {
+                    double d = random.nextGaussian() * 0.02D;
+                    double e = random.nextGaussian() * 0.02D;
+                    double f = random.nextGaussian() * 0.02D;
+                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, crop_pos.getX() + 0.5, crop_pos.getY() + 0.5, crop_pos.getZ() + 0.5, d, e, f);
+                    System.out.println(fertilizable);
+                }
         }
     }
 
