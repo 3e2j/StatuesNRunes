@@ -1,6 +1,7 @@
 package net.runedar.snr.blocks.blockentities;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Fertilizable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -9,12 +10,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
-import net.minecraft.item.Item;
+import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ItemStackParticleEffect;
-import net.minecraft.particle.ParticleType;
+import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
@@ -34,11 +34,14 @@ import net.runedar.snr.screenhandler.BoxScreenHandler;
 import net.runedar.snr.screenhandler.InventoryCode;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 
-public class StatueBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, InventoryCode, SidedInventory{
+public class StatueBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, InventoryCode, SidedInventory {
     public int itemin;
     public int sound;
     public int pose;
@@ -53,11 +56,11 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     }
 
     //From the ImplementedInventory Interface
- 
+
     @Override
     public DefaultedList<ItemStack> getItems() {
         return inventory;
- 
+
     }
 
     @Override
@@ -81,8 +84,9 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
          */
         if (this.pose == 2 &&
                 this.getCachedState().isOf(ModBlocks.SLIME_STATUE)
-        )
-        {this.pose = 0;}
+        ) {
+            this.pose = 0;
+        }
         // Swish Swoosh
         world.playSound(null, pos, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundCategory.BLOCKS, 1f, 1f);
         //world.addParticle(new ItemStackParticleEffect(ParticleTypes.ITEM, new ItemStack(Items.STONE)), 0, 0, 0, 1D, 1D, 1D);
@@ -90,6 +94,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
 
 
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
+        Random random = world.getRandom();
         ItemStack itemStack = blockEntity.inventory.get(0);
         /**
          * Sounds are here, they deal with activation and deactivation, if you are to come back to this for a corruption esc
@@ -111,87 +116,92 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
          * that is being used. You can keep adding to this.
          */
         if (!itemStack.isEmpty()) {
-                if (itemStack.isOf(ModItems.RUNE_LEVITATION)) {
-                    if (
-                    (state.isOf(ModBlocks.AXOLOTL_STATUE)) ||
-                    (state.isOf(ModBlocks.PARROT_STATUE)) ||
-                    (state.isOf(ModBlocks.CHICKEN_STATUE))
-                    ){
-                        blockEntity.itemin = 1;
-                        if (blockEntity.sound == 0) {
-                            blockEntity.sound = 1;
-                        }
-                    }
-                }
-                if (itemStack.isOf(ModItems.RUNE_SLOWFALL)) {
-                    blockEntity.itemin = 2;
+            if (itemStack.isOf(ModItems.RUNE_LEVITATION)) {
+                if (
+                        (state.isOf(ModBlocks.AXOLOTL_STATUE)) ||
+                                (state.isOf(ModBlocks.PARROT_STATUE)) ||
+                                (state.isOf(ModBlocks.CHICKEN_STATUE))
+                ) {
+                    blockEntity.itemin = 1;
                     if (blockEntity.sound == 0) {
                         blockEntity.sound = 1;
                     }
                 }
-                if (itemStack.isOf(ModItems.RUNE_NIGHTVISION)) {
-                    blockEntity.itemin = 3;
-                    if (blockEntity.sound == 0) {
-                        blockEntity.sound = 1;
-                    }
-                }
-                if (itemStack.isOf(ModItems.RUNE_GLOWING)) {
-                    blockEntity.itemin = 4;
-                    if (blockEntity.sound == 0) {
-                        blockEntity.sound = 1;
-                    }
-                }
-                if (itemStack.isOf(ModItems.RUNE_HEALTHBOOST)) {
-                    blockEntity.itemin = 5;
-                    if (blockEntity.sound == 0) {
-                        blockEntity.sound = 1;
-                    }
-                }
-                if (itemStack.isOf(ModItems.RUNE_ABSORPTION)) {
-                    blockEntity.itemin = 6;
-                    if (blockEntity.sound == 0) {
-                        blockEntity.sound = 1;
-                    }
-                }
-                if (itemStack.isOf(ModItems.RUNE_FIRERESISTANCE)) {
-                    blockEntity.itemin = 7;
-                    if (blockEntity.sound == 0) {
-                        blockEntity.sound = 1;
-                    }
-                }
-                if (itemStack.isOf(ModItems.RUNE_JUMPBOOST)) {
-                    blockEntity.itemin = 8;
-                    if (blockEntity.sound == 0) {
-                        blockEntity.sound = 1;
-                    }
-                }
-                if (itemStack.isOf(ModItems.RUNE_INVISIBILITY)) {
-                    blockEntity.itemin = 9;
-                    if (blockEntity.sound == 0) {
-                        blockEntity.sound = 1;
-                    }
-                }
-        }
-        else {
-            blockEntity.itemin = 0;
             }
-
+            if (itemStack.isOf(ModItems.RUNE_SLOWFALL)) {
+                blockEntity.itemin = 2;
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
+            }
+            if (itemStack.isOf(ModItems.RUNE_NIGHTVISION)) {
+                blockEntity.itemin = 3;
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
+            }
+            if (itemStack.isOf(ModItems.RUNE_GLOWING)) {
+                blockEntity.itemin = 4;
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
+            }
+            if (itemStack.isOf(ModItems.RUNE_HEALTHBOOST)) {
+                blockEntity.itemin = 5;
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
+            }
+            if (itemStack.isOf(ModItems.RUNE_ABSORPTION)) {
+                blockEntity.itemin = 6;
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
+            }
+            if (itemStack.isOf(ModItems.RUNE_FIRERESISTANCE)) {
+                blockEntity.itemin = 7;
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
+            }
+            if (itemStack.isOf(ModItems.RUNE_JUMPBOOST)) {
+                blockEntity.itemin = 8;
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
+            }
+            if (itemStack.isOf(ModItems.RUNE_INVISIBILITY)) {
+                blockEntity.itemin = 9;
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
+            }
+            if (itemStack.isOf(ModItems.GOLDEN_HEART)) {
+                blockEntity.itemin = 10;
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
+            }
+        } else {
+            blockEntity.itemin = 0;
+        }
 
 
         applyPlayerEffects(world, pos, blockEntity.itemin);
+        specialNonPlayerEffects(world, pos, blockEntity.itemin);
         markDirty(world, pos, state);
     }
 
-        private static void applyPlayerEffects(World world, BlockPos pos, int itemin) {
-            double d = 20;
-            Box box = (new Box(pos)).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
-            List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
-            Iterator<PlayerEntity> var1 = list.iterator();
+    private static void applyPlayerEffects(World world, BlockPos pos, int itemin) {
+        double d = 20;
+        Box box = (new Box(pos)).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
+        List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
+        Iterator<PlayerEntity> var1 = list.iterator();
 
-            PlayerEntity playerEntity;
-            while (var1.hasNext()) {
-                playerEntity = var1.next();
-                switch (itemin) {
+        PlayerEntity playerEntity;
+        while (var1.hasNext()) {
+            playerEntity = var1.next();
+            switch (itemin) {
                 case 1 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0, true, true));
                 case 2 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 40, 0, true, true));
                 case 3 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 40, 0, true, true));
@@ -205,6 +215,48 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         }
     }
 
+    public static void specialNonPlayerEffects(World world, BlockPos pos, int itemin) {
+        switch (itemin) {
+            case 10 -> plantGrowth(pos, world);
+        }
+    }
+
+    static List<BlockPos> fertilizable = new ArrayList<>();
+
+    private static void plantGrowth(BlockPos pos, World world) {
+        int block_x = pos.getX();
+        int block_z = pos.getZ();
+        int block_y = pos.getY();
+        for (int y = -1; y < 2; y++) {
+            for (int x = -1; x < 2; x++) {
+                for (int z = -1; z < 2; z++) {
+                    BlockPos crop_pos = new BlockPos(block_x + x, block_y + y, block_z + z);
+                    BlockState blockState = world.getBlockState(crop_pos);
+                    //Check if the block can grow
+                    if (blockState.getBlock() instanceof Fertilizable) {
+                        fertilizable.add(crop_pos);
+
+                    }
+                }
+            }
+            ItemStack bonemeal = new ItemStack(Items.BONE_MEAL);
+            if (fertilizable.size() > 0) {
+                BlockPos crop_pos = fertilizable.get(ThreadLocalRandom.current().nextInt(fertilizable.size()));
+                BoneMealItem.useOnFertilizable(bonemeal, world, crop_pos);
+                ParticleS2CPacket particle_packet = new ParticleS2CPacket(
+                        ParticleTypes.HAPPY_VILLAGER,
+                        false,
+                        crop_pos.getX() + 0.5,
+                        crop_pos.getY() + 0.5,
+                        crop_pos.getZ() + 0.5,
+                        0.2F,
+                        0.2F,
+                        0.2F,
+                        1.0F,
+                        10);
+            }
+        }
+    }
 
     @Override
     public void readNbt(NbtCompound nbt) {
