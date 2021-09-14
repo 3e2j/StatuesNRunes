@@ -197,8 +197,10 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
 
         //specialNonPlayerEffects(world, pos, state, itemin1);
         markDirty(world, pos, state);
+        if (itemin1 == 10){
+            plantGrowth(world, pos);
+        }
         blockEntity.itemin = itemin1;
-        plantGrowth(world, pos);
     }
 
     private static void applyPlayerEffects(World world, BlockPos pos, int itemin1) {
