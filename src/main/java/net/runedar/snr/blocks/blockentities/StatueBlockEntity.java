@@ -12,6 +12,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
@@ -42,6 +43,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public int itemin;
     public int sound;
     public int pose;
+    public static final Random random = new Random();
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
 
@@ -90,7 +92,9 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
 
 
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
+        //produceParticles(ParticleTypes.HEART, world, pos);
         ItemStack itemStack = blockEntity.inventory.get(0);
+        int itemin1 = 0;
         /**
          * Sounds are here, they deal with activation and deactivation, if you are to come back to this for a corruption esc
          * sound, this is where to put it. Just put it >=4 due to case 3 being an empty clause for no sound but registering that
@@ -117,62 +121,68 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                                 (state.isOf(ModBlocks.PARROT_STATUE)) ||
                                 (state.isOf(ModBlocks.CHICKEN_STATUE))
                 ) {
-                    blockEntity.itemin = 1;
+                    itemin1 = 1;
                     if (blockEntity.sound == 0) {
                         blockEntity.sound = 1;
                     }
                 }
             }
             if (itemStack.isOf(ModItems.RUNE_SLOWFALL)) {
-                blockEntity.itemin = 2;
+                itemin1 = 2;
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
             }
             if (itemStack.isOf(ModItems.RUNE_NIGHTVISION)) {
-                blockEntity.itemin = 3;
+                itemin1 = 3;
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
             }
             if (itemStack.isOf(ModItems.RUNE_GLOWING)) {
-                blockEntity.itemin = 4;
+                itemin1 = 4;
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
             }
             if (itemStack.isOf(ModItems.RUNE_HEALTHBOOST)) {
-                blockEntity.itemin = 5;
+                itemin1 = 5;
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
             }
             if (itemStack.isOf(ModItems.RUNE_ABSORPTION)) {
-                blockEntity.itemin = 6;
+                itemin1 = 6;
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
             }
             if (itemStack.isOf(ModItems.RUNE_FIRERESISTANCE)) {
-                blockEntity.itemin = 7;
+                itemin1 = 7;
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
             }
             if (itemStack.isOf(ModItems.RUNE_JUMPBOOST)) {
-                blockEntity.itemin = 8;
+                itemin1 = 8;
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
             }
             if (itemStack.isOf(ModItems.RUNE_INVISIBILITY)) {
-                blockEntity.itemin = 9;
+                itemin1 = 9;
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
             }
             if (itemStack.isOf(ModItems.GOLDEN_HEART)) {
-                blockEntity.itemin = 10;
+                itemin1 = 10;
+                if (blockEntity.sound == 0) {
+                    blockEntity.sound = 1;
+                }
+            }
+            if (itemStack.isOf(ModItems.CORRUPTED_HEART)) {
+                itemin1 = 11;
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
@@ -181,15 +191,17 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
             if (blockEntity.sound == 3) {
                 blockEntity.sound = 2;
             }
-            blockEntity.itemin = 0;
         }
 
-        applyPlayerEffects(world, pos, blockEntity.itemin);
-        specialNonPlayerEffects(world, pos, blockEntity.itemin, state);
+        applyPlayerEffects(world, pos, itemin1);
+
+        //specialNonPlayerEffects(world, pos, state, itemin1);
         markDirty(world, pos, state);
+        blockEntity.itemin = itemin1;
+        plantGrowth(world, pos);
     }
 
-    private static void applyPlayerEffects(World world, BlockPos pos, int itemin) {
+    private static void applyPlayerEffects(World world, BlockPos pos, int itemin1) {
         double d = 20;
         Box box = (new Box(pos)).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
         List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
@@ -198,7 +210,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         PlayerEntity playerEntity;
         while (var1.hasNext()) {
             playerEntity = var1.next();
-            switch (itemin) {
+            switch (itemin1) {
                 case 1 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0, true, true));
                 case 2 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 40, 0, true, true));
                 case 3 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 40, 0, true, true));
@@ -212,16 +224,24 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         }
     }
 
-    public static void specialNonPlayerEffects(World world, BlockPos pos, int itemin, BlockState state) {
-        switch (itemin) {
-            case 10 -> plantGrowth(pos, world, world.getRandom(), state);
+    /*public static void specialNonPlayerEffects(World world, BlockPos pos, BlockState state, int itemin1) {
+        System.out.println("SNPE - " + world);
+        switch (itemin1) {
+            case 10 -> plantGrowth(world, pos);
             case 11 -> {}
         }
-    }
+    }*/
 
-    private static void plantGrowth(BlockPos pos, World world, Random random, BlockState state) {
+    static BlockPos cropposafter = null;
+    static int successgrow = 0;
+    private static void plantGrowth(World world, BlockPos pos) {
+
+        if (successgrow == 1 && world.isClient) {
+            produceParticles(ParticleTypes.HAPPY_VILLAGER, world, cropposafter);
+            successgrow = 0;
+        }
+
         List<BlockPos> fertilizable = new ArrayList<>();
-        //ItemStack bonemeal = new ItemStack(Items.BONE_MEAL);
         int block_x = pos.getX();
         int block_z = pos.getZ();
         int block_y = pos.getY();
@@ -239,31 +259,31 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                 }
             }
         }
-        // THIS RANDOM VALUE CHANGES HOW FAST IT ACTS
         // NEED TO ADD IF IT ISNT FERTILIZABLE = DONT RUN
-            if (fertilizable.size() > 0 && random.nextInt(200) < 1) {
+        if (fertilizable.size() > 0) {
+            if (random.nextInt(200) < 1){
                 BlockPos crop_pos = fertilizable.get(ThreadLocalRandom.current().nextInt(fertilizable.size()));
-
-                Fertilizable fertilizable1 = (Fertilizable) world.getBlockState(crop_pos).getBlock();
-                fertilizable1.grow((ServerWorld) world, world.random, crop_pos, world.getBlockState(crop_pos));
-
-                //BoneMealItem.useOnFertilizable(bonemeal, world, crop_pos);
-                // OUTDATED
-                /*world.addParticle(
-                        ParticleTypes.HAPPY_VILLAGER,
-                        crop_pos.getX() + 0.5,
-                        crop_pos.getY() + 0.5,
-                        crop_pos.getZ() + 0.5,
-                        0.2F,
-                        0.2F,
-                        0.2F);*/
-                for(int i = 0; i < 5; ++i) {
-                    double d = random.nextGaussian() * 0.02D;
-                    double e = random.nextGaussian() * 0.02D;
-                    double f = random.nextGaussian() * 0.02D;
-                    world.addParticle(ParticleTypes.HAPPY_VILLAGER, crop_pos.getX() + 0.5, crop_pos.getY() + 0.5, crop_pos.getZ() + 0.5, d, e, f);
+                cropposafter = crop_pos;
+                //produceParticles(ParticleTypes.HAPPY_VILLAGER, world, crop_pos);
+                System.out.println("I did a particle at "+crop_pos);
+                if (!world.isClient && random.nextInt(3) < 1) {
+                    Fertilizable fertilizable1 = (Fertilizable) world.getBlockState(crop_pos).getBlock();
+                    fertilizable1.grow((ServerWorld) world, world.random, crop_pos, world.getBlockState(crop_pos));
+                    System.out.println("I grew a thing at "+crop_pos);
                 }
+                successgrow = 1;
+            }
         }
+    }
+
+    protected static void produceParticles(ParticleEffect parameters, World world, BlockPos parpos) {
+        for(int i = 0; i < 5; ++i) {
+            double d = random.nextGaussian() * 0.05D;
+            double e = random.nextGaussian() * 0.05D;
+            double f = random.nextGaussian() * 0.05D;
+            world.addParticle(parameters, parpos.getX() + 0.5, parpos.getY() + 0.5, parpos.getZ() + 0.5, d, e, f);
+        }
+
     }
 
     @Override
