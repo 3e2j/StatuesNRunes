@@ -1,11 +1,9 @@
 package net.runedar.snr.blocks.blockentities;
 
-import net.minecraft.block.AbstractPlantStemBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Fertilizable;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,7 +11,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -33,9 +30,11 @@ import net.runedar.snr.registry.ModItems;
 import net.runedar.snr.registry.ModSounds;
 import net.runedar.snr.screenhandler.BoxScreenHandler;
 import net.runedar.snr.screenhandler.InventoryCode;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -43,9 +42,6 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public int itemin;
     public int sound;
     public int pose;
-    @Nullable
-    StatusEffect primary;
-    public final Random random = new Random();
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
 
@@ -94,7 +90,6 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
 
 
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
-        Random random = world.getRandom();
         ItemStack itemStack = blockEntity.inventory.get(0);
         /**
          * Sounds are here, they deal with activation and deactivation, if you are to come back to this for a corruption esc
@@ -190,7 +185,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         }
 
         applyPlayerEffects(world, pos, blockEntity.itemin);
-        specialNonPlayerEffects(world, pos, blockEntity.itemin, blockEntity, state);
+        specialNonPlayerEffects(world, pos, blockEntity.itemin, state);
         markDirty(world, pos, state);
     }
 
@@ -217,16 +212,16 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         }
     }
 
-    public static void specialNonPlayerEffects(World world, BlockPos pos, int itemin, StatueBlockEntity blockEntity, BlockState state) {
+    public static void specialNonPlayerEffects(World world, BlockPos pos, int itemin, BlockState state) {
         switch (itemin) {
-            case 10 -> plantGrowth(pos, world, world.getRandom(), blockEntity, state);
+            case 10 -> plantGrowth(pos, world, world.getRandom(), state);
             case 11 -> {}
         }
     }
 
-    private static void plantGrowth(BlockPos pos, World world, Random random, StatueBlockEntity blockEntity, BlockState state) {
+    private static void plantGrowth(BlockPos pos, World world, Random random, BlockState state) {
         List<BlockPos> fertilizable = new ArrayList<>();
-        ItemStack bonemeal = new ItemStack(Items.BONE_MEAL);
+        //ItemStack bonemeal = new ItemStack(Items.BONE_MEAL);
         int block_x = pos.getX();
         int block_z = pos.getZ();
         int block_y = pos.getY();
@@ -248,10 +243,9 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         // NEED TO ADD IF IT ISNT FERTILIZABLE = DONT RUN
             if (fertilizable.size() > 0 && random.nextInt(200) < 1) {
                 BlockPos crop_pos = fertilizable.get(ThreadLocalRandom.current().nextInt(fertilizable.size()));
-                //BlockState blockState = world.getBlockState(crop_pos);
+
                 Fertilizable fertilizable1 = (Fertilizable) world.getBlockState(crop_pos).getBlock();
                 fertilizable1.grow((ServerWorld) world, world.random, crop_pos, world.getBlockState(crop_pos));
-                //((AbstractPlantStemBlock)blockState.getBlock()).grow((ServerWorld) world, random, crop_pos, blockState);
 
                 //BoneMealItem.useOnFertilizable(bonemeal, world, crop_pos);
                 // OUTDATED
@@ -268,7 +262,6 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                     double e = random.nextGaussian() * 0.02D;
                     double f = random.nextGaussian() * 0.02D;
                     world.addParticle(ParticleTypes.HAPPY_VILLAGER, crop_pos.getX() + 0.5, crop_pos.getY() + 0.5, crop_pos.getZ() + 0.5, d, e, f);
-                    System.out.println(fertilizable);
                 }
         }
     }
