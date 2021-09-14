@@ -90,7 +90,6 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         //world.addParticle(new ItemStackParticleEffect(ParticleTypes.ITEM, new ItemStack(Items.STONE)), 0, 0, 0, 1D, 1D, 1D);
     }
 
-
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
         //produceParticles(ParticleTypes.HEART, world, pos);
         ItemStack itemStack = blockEntity.inventory.get(0);
@@ -104,6 +103,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
             case 1 -> {
                 world.playSound(null, pos, ModSounds.BLOCK_STATUE_ACTIVATE, SoundCategory.BLOCKS, 1f, 1f);
                 blockEntity.sound = 3;
+                produceParticles(ParticleTypes.HEART, world, pos);
             }
             case 2 -> {
                 world.playSound(null, pos, ModSounds.BLOCK_STATUE_DEACTIVATE, SoundCategory.BLOCKS, 1f, 1f);
@@ -177,6 +177,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
             }
             if (itemStack.isOf(ModItems.GOLDEN_HEART)) {
                 itemin1 = 10;
+                //plantGrowth(world, pos);
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
@@ -192,18 +193,14 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                 blockEntity.sound = 2;
             }
         }
-
         applyPlayerEffects(world, pos, itemin1);
 
-        //specialNonPlayerEffects(world, pos, state, itemin1);
+        plantGrowth(world, pos);
         markDirty(world, pos, state);
-        if (itemin1 == 10){
-            plantGrowth(world, pos);
-        }
         blockEntity.itemin = itemin1;
     }
 
-    private static void applyPlayerEffects(World world, BlockPos pos, int itemin1) {
+    private static void applyPlayerEffects(World world, BlockPos pos, int itemin) {
         double d = 20;
         Box box = (new Box(pos)).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
         List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
@@ -212,7 +209,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         PlayerEntity playerEntity;
         while (var1.hasNext()) {
             playerEntity = var1.next();
-            switch (itemin1) {
+            switch (itemin) {
                 case 1 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0, true, true));
                 case 2 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 40, 0, true, true));
                 case 3 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 40, 0, true, true));
@@ -226,18 +223,10 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         }
     }
 
-    /*public static void specialNonPlayerEffects(World world, BlockPos pos, BlockState state, int itemin1) {
-        System.out.println("SNPE - " + world);
-        switch (itemin1) {
-            case 10 -> plantGrowth(world, pos);
-            case 11 -> {}
-        }
-    }*/
-
     static BlockPos cropposafter = null;
     static int successgrow = 0;
     private static void plantGrowth(World world, BlockPos pos) {
-
+        System.out.println(world);
         if (successgrow == 1 && world.isClient) {
             produceParticles(ParticleTypes.HAPPY_VILLAGER, world, cropposafter);
             successgrow = 0;
@@ -261,19 +250,24 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                 }
             }
         }
-        // NEED TO ADD IF IT ISNT FERTILIZABLE = DONT RUN
         if (fertilizable.size() > 0) {
-            if (random.nextInt(200) < 1){
-                BlockPos crop_pos = fertilizable.get(ThreadLocalRandom.current().nextInt(fertilizable.size()));
-                cropposafter = crop_pos;
-                //produceParticles(ParticleTypes.HAPPY_VILLAGER, world, crop_pos);
-                System.out.println("I did a particle at "+crop_pos);
-                if (!world.isClient && random.nextInt(3) < 1) {
-                    Fertilizable fertilizable1 = (Fertilizable) world.getBlockState(crop_pos).getBlock();
-                    fertilizable1.grow((ServerWorld) world, world.random, crop_pos, world.getBlockState(crop_pos));
-                    System.out.println("I grew a thing at "+crop_pos);
+            // Rand Particles main control - 'every one second or so'
+            if (random.nextInt(20) < 1) {
+                // Forced control, it will control the quickness of speed by deviding it by the size.
+                //This makes sure that one plant isn't quickly grown, it's grown at the speed of the others, with a max.
+                if (random.nextInt(((20 / fertilizable.size())+1)*10) < 1) {
+                    BlockPos crop_pos = fertilizable.get(ThreadLocalRandom.current().nextInt(fertilizable.size()));
+                    cropposafter = crop_pos;
+                    System.out.println("I did a particle at " + crop_pos);
+                    successgrow = 1;
+                    System.out.println(successgrow);
+                    // 1/4 chance of growing when rand particle happens
+                    if (!world.isClient && random.nextInt(3) < 1) {
+                        Fertilizable fertilizable1 = (Fertilizable) world.getBlockState(crop_pos).getBlock();
+                        fertilizable1.grow((ServerWorld) world, world.random, crop_pos, world.getBlockState(crop_pos));
+                        System.out.println("I grew a thing at " + crop_pos);
+                    }
                 }
-                successgrow = 1;
             }
         }
     }
