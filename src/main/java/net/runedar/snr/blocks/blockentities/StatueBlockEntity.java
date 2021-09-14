@@ -226,7 +226,6 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     static BlockPos cropposafter = null;
     static int successgrow = 0;
     private static void plantGrowth(World world, BlockPos pos) {
-        System.out.println(world);
         if (successgrow == 1 && world.isClient) {
             produceParticles(ParticleTypes.HAPPY_VILLAGER, world, cropposafter);
             successgrow = 0;
@@ -260,7 +259,6 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                     cropposafter = crop_pos;
                     System.out.println("I did a particle at " + crop_pos);
                     successgrow = 1;
-                    System.out.println(successgrow);
                     // 1/4 chance of growing when rand particle happens
                     if (!world.isClient && random.nextInt(3) < 1) {
                         Fertilizable fertilizable1 = (Fertilizable) world.getBlockState(crop_pos).getBlock();
