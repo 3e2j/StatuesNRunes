@@ -254,18 +254,20 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         if (fertilizable.size() > 0) {
             // Rand Particles main control - 'every one second or so'
             if (random.nextInt(20) < 1) {
-                // Forced control, it will control the quickness of speed by deviding it by the size.
-                //This makes sure that one plant isn't quickly grown, it's grown at the speed of the others, with a max.
+                /** Forced control, it will control the quickness of speed by deviding it by the size.
+                 * This makes sure that one plant isn't quickly grown, it's grown at the speed of the others, with a max.
+                 */
                 if (random.nextInt(((20 / fertilizable.size())+1)*10) < 1) {
                     BlockPos crop_pos = fertilizable.get(ThreadLocalRandom.current().nextInt(fertilizable.size()));
                     cropposafter = crop_pos;
-                    System.out.println("I did a particle at " + crop_pos);
+                    //DEBUG LINES - USED FOR BALANCING
+                    //System.out.println("I did a particle at " + crop_pos);
                     successgrow = 1;
                     // 1/4 chance of growing when rand particle happens
                     if (!world.isClient && random.nextInt(3) < 1) {
                         Fertilizable fertilizable1 = (Fertilizable) world.getBlockState(crop_pos).getBlock();
                         fertilizable1.grow((ServerWorld) world, world.random, crop_pos, world.getBlockState(crop_pos));
-                        System.out.println("I grew a thing at " + crop_pos);
+                        //System.out.println("I grew a thing at " + crop_pos);
                     }
                 }
             }
