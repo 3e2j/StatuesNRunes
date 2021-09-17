@@ -45,7 +45,6 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public int pose;
     public static final Random random = new Random();
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
-    private static int itemin1 = 0;
 
 
     public StatueBlockEntity(BlockPos pos, BlockState state) {
@@ -103,7 +102,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
             case 1 -> {
                 world.playSound(null, pos, ModSounds.BLOCK_STATUE_ACTIVATE, SoundCategory.BLOCKS, 1f, 1f);
                 blockEntity.sound = 3;
-                produceParticles(ParticleTypes.HEART, world, pos);
+                produceParticles(ParticleTypes.HEART, world, pos, 0.05f);
             }
             case 2 -> {
                 world.playSound(null, pos, ModSounds.BLOCK_STATUE_DEACTIVATE, SoundCategory.BLOCKS, 1f, 1f);
@@ -114,6 +113,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
          * Effects. Used to only run when certain items are in statues, basically just assigns an ID based on the type of rune
          * that is being used. You can keep adding to this.
          */
+        int itemin1 = 0;
         if (!itemStack.isEmpty()) {
             if (itemStack.isOf(ModItems.RUNE_LEVITATION)) {
                 if (
@@ -177,7 +177,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
             }
             if (itemStack.isOf(ModItems.GOLDEN_HEART)) {
                 itemin1 = 10;
-                plantGrowth(world, pos);
+                plantGrowth(world, pos, blockEntity);
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
@@ -196,9 +196,9 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         applyPlayerEffects(world, pos, itemin1);
         blockEntity.itemin = itemin1;
         markDirty(world, pos, state);
-        if (world.isClient && itemin1 == 10){
-            plantGrowth(world, pos);
-            itemin1 = 0;
+        //can replace with a switch later if needed
+        if (world.isClient && successGrow == 1){
+            plantGrowth(world, pos, blockEntity);
         }
     }
 
@@ -225,14 +225,13 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         }
     }
 
-    static BlockPos cropposafter = null;
-    static int successgrow = 0;
-    private static void plantGrowth(World world, BlockPos pos) {
-        if (successgrow == 1 && world.isClient) {
-            produceParticles(ParticleTypes.HAPPY_VILLAGER, world, cropposafter);
-            successgrow = 0;
+    private static BlockPos cropposafter = null;
+    private static int successGrow = 0;
+    private static void plantGrowth(World world, BlockPos pos, BlockEntity blockEntity) {
+        if (successGrow == 1 && world.isClient) {
+            produceParticles(ParticleTypes.HAPPY_VILLAGER, world, cropposafter, 0.5f);
+            successGrow = 0;
         }
-
         List<BlockPos> fertilizable = new ArrayList<>();
         int block_x = pos.getX();
         int block_z = pos.getZ();
@@ -252,8 +251,8 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
             }
         }
         if (fertilizable.size() > 0) {
-            // Rand Particles main control - 'every one second or so'
-            if (random.nextInt(20) < 1) {
+            // Rand Particles main control - 'every 1/4 one second or so'
+            if (random.nextInt(3) < 1) {
                 /** Forced control, it will control the quickness of speed by deviding it by the size.
                  * This makes sure that one plant isn't quickly grown, it's grown at the speed of the others, with a max.
                  */
@@ -262,9 +261,9 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
                     cropposafter = crop_pos;
                     //DEBUG LINES - USED FOR BALANCING
                     //System.out.println("I did a particle at " + crop_pos);
-                    successgrow = 1;
-                    // 1/4 chance of growing when rand particle happens
-                    if (!world.isClient && random.nextInt(3) < 1) {
+                    successGrow = 1;
+                    // 1/11 chance of growing when rand particle happens
+                    if (!world.isClient && random.nextInt(10) < 1) {
                         Fertilizable fertilizable1 = (Fertilizable) world.getBlockState(crop_pos).getBlock();
                         fertilizable1.grow((ServerWorld) world, world.random, crop_pos, world.getBlockState(crop_pos));
                         //System.out.println("I grew a thing at " + crop_pos);
@@ -274,14 +273,21 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
         }
     }
 
-    protected static void produceParticles(ParticleEffect parameters, World world, BlockPos parpos) {
+    protected static void produceParticles(ParticleEffect parameters, World world, BlockPos parpos, float velocity) {
         for(int i = 0; i < 5; ++i) {
-            double d = random.nextGaussian() * 0.05D;
-            double e = random.nextGaussian() * 0.05D;
-            double f = random.nextGaussian() * 0.05D;
+            double d = random.nextGaussian() * velocity;
+            double e = random.nextGaussian() * velocity;
+            double f = random.nextGaussian() * velocity;
             world.addParticle(parameters, parpos.getX() + 0.5, parpos.getY() + 0.5, parpos.getZ() + 0.5, d, e, f);
         }
-
+    }
+    protected static void produceParticles(ParticleEffect parameters, World world, BlockPos parpos, float velocityX, float velocityY, float velocityZ) {
+        for (int i = 0; i < 5; ++i) {
+            double d = random.nextGaussian() * velocityX;
+            double e = random.nextGaussian() * velocityY;
+            double f = random.nextGaussian() * velocityZ;
+            world.addParticle(parameters, parpos.getX() + 0.5, parpos.getY() + 0.5, parpos.getZ() + 0.5, d, e, f);
+        }
     }
 
     @Override
