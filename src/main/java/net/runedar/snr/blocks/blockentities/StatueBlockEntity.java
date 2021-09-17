@@ -45,6 +45,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public int pose;
     public static final Random random = new Random();
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+    private static int itemin1 = 0;
 
 
     public StatueBlockEntity(BlockPos pos, BlockState state) {
@@ -93,7 +94,6 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
         //produceParticles(ParticleTypes.HEART, world, pos);
         ItemStack itemStack = blockEntity.inventory.get(0);
-        int itemin1 = 0;
         /**
          * Sounds are here, they deal with activation and deactivation, if you are to come back to this for a corruption esc
          * sound, this is where to put it. Just put it >=4 due to case 3 being an empty clause for no sound but registering that
@@ -177,7 +177,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
             }
             if (itemStack.isOf(ModItems.GOLDEN_HEART)) {
                 itemin1 = 10;
-                //plantGrowth(world, pos);
+                plantGrowth(world, pos);
                 if (blockEntity.sound == 0) {
                     blockEntity.sound = 1;
                 }
@@ -194,10 +194,12 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
             }
         }
         applyPlayerEffects(world, pos, itemin1);
-
-        plantGrowth(world, pos);
-        markDirty(world, pos, state);
         blockEntity.itemin = itemin1;
+        markDirty(world, pos, state);
+        if (world.isClient && itemin1 == 10){
+            plantGrowth(world, pos);
+            itemin1 = 0;
+        }
     }
 
     private static void applyPlayerEffects(World world, BlockPos pos, int itemin) {
