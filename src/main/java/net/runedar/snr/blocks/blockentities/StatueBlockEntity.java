@@ -1,50 +1,34 @@
 package net.runedar.snr.blocks.blockentities;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Fertilizable;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.runedar.snr.effects.StatueTick;
 import net.runedar.snr.registry.ModBlocks;
-import net.runedar.snr.registry.ModItems;
-import net.runedar.snr.registry.ModSounds;
 import net.runedar.snr.screenhandler.BoxScreenHandler;
 import net.runedar.snr.screenhandler.InventoryCode;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 public class StatueBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, InventoryCode, SidedInventory {
     public int itemin;
     public int sound;
     public int pose;
-    public static final Random random = new Random();
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+    public final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
 
     public StatueBlockEntity(BlockPos pos, BlockState state) {
@@ -91,203 +75,7 @@ public class StatueBlockEntity extends BlockEntity implements NamedScreenHandler
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, StatueBlockEntity blockEntity) {
-        //produceParticles(ParticleTypes.HEART, world, pos);
-        ItemStack itemStack = blockEntity.inventory.get(0);
-        /**
-         * Sounds are here, they deal with activation and deactivation, if you are to come back to this for a corruption esc
-         * sound, this is where to put it. Just put it >=4 due to case 3 being an empty clause for no sound but registering that
-         * a sound has still been played to the player.
-         */
-        switch (blockEntity.sound) {
-            case 1 -> {
-                world.playSound(null, pos, ModSounds.BLOCK_STATUE_ACTIVATE, SoundCategory.BLOCKS, 1f, 1f);
-                blockEntity.sound = 3;
-                produceParticles(ParticleTypes.HEART, world, pos, 0.05f);
-            }
-            case 2 -> {
-                world.playSound(null, pos, ModSounds.BLOCK_STATUE_DEACTIVATE, SoundCategory.BLOCKS, 1f, 1f);
-                blockEntity.sound = 0;
-            }
-        }
-        /**
-         * Effects. Used to only run when certain items are in statues, basically just assigns an ID based on the type of rune
-         * that is being used. You can keep adding to this.
-         */
-        int itemin1 = 0;
-        if (!itemStack.isEmpty()) {
-            if (itemStack.isOf(ModItems.RUNE_LEVITATION)) {
-                if (
-                        (state.isOf(ModBlocks.AXOLOTL_STATUE)) ||
-                                (state.isOf(ModBlocks.PARROT_STATUE)) ||
-                                (state.isOf(ModBlocks.CHICKEN_STATUE))
-                ) {
-                    itemin1 = 1;
-                    if (blockEntity.sound == 0) {
-                        blockEntity.sound = 1;
-                    }
-                }
-            }
-            if (itemStack.isOf(ModItems.RUNE_SLOWFALL)) {
-                itemin1 = 2;
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
-                }
-            }
-            if (itemStack.isOf(ModItems.RUNE_NIGHTVISION)) {
-                itemin1 = 3;
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
-                }
-            }
-            if (itemStack.isOf(ModItems.RUNE_GLOWING)) {
-                itemin1 = 4;
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
-                }
-            }
-            if (itemStack.isOf(ModItems.RUNE_HEALTHBOOST)) {
-                itemin1 = 5;
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
-                }
-            }
-            if (itemStack.isOf(ModItems.RUNE_ABSORPTION)) {
-                itemin1 = 6;
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
-                }
-            }
-            if (itemStack.isOf(ModItems.RUNE_FIRERESISTANCE)) {
-                itemin1 = 7;
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
-                }
-            }
-            if (itemStack.isOf(ModItems.RUNE_JUMPBOOST)) {
-                itemin1 = 8;
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
-                }
-            }
-            if (itemStack.isOf(ModItems.RUNE_INVISIBILITY)) {
-                itemin1 = 9;
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
-                }
-            }
-            if (itemStack.isOf(ModItems.GOLDEN_HEART)) {
-                itemin1 = 10;
-                plantGrowth(world, pos, blockEntity);
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
-                }
-            }
-            if (itemStack.isOf(ModItems.CORRUPTED_HEART)) {
-                itemin1 = 11;
-                if (blockEntity.sound == 0) {
-                    blockEntity.sound = 1;
-                }
-            }
-        } else {
-            if (blockEntity.sound == 3) {
-                blockEntity.sound = 2;
-            }
-        }
-        applyPlayerEffects(world, pos, itemin1);
-        blockEntity.itemin = itemin1;
-        markDirty(world, pos, state);
-        //can replace with a switch later if needed
-        if (world.isClient && successGrow == 1){
-            plantGrowth(world, pos, blockEntity);
-        }
-    }
-
-    private static void applyPlayerEffects(World world, BlockPos pos, int itemin) {
-        double d = 20;
-        Box box = (new Box(pos)).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
-        List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
-        Iterator<PlayerEntity> var1 = list.iterator();
-
-        PlayerEntity playerEntity;
-        while (var1.hasNext()) {
-            playerEntity = var1.next();
-            switch (itemin) {
-                case 1 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 40, 0, true, true));
-                case 2 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 40, 0, true, true));
-                case 3 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 40, 0, true, true));
-                case 4 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 40, 0, true, true));
-                case 5 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 40, 0, true, true));
-                case 6 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 40, 0, true, true));
-                case 7 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 40, 0, true, true));
-                case 8 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 40, 0, true, true));
-                case 9 -> playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 40, 0, true, true));
-            }
-        }
-    }
-
-    private static BlockPos cropposafter = null;
-    private static int successGrow = 0;
-    private static void plantGrowth(World world, BlockPos pos, BlockEntity blockEntity) {
-        if (successGrow == 1 && world.isClient) {
-            produceParticles(ParticleTypes.HAPPY_VILLAGER, world, cropposafter, 0.5f);
-            successGrow = 0;
-        }
-        List<BlockPos> fertilizable = new ArrayList<>();
-        int block_x = pos.getX();
-        int block_z = pos.getZ();
-        int block_y = pos.getY();
-        // y2 = y --y + 1
-        for (int y = -3; y < 4; y++) {
-            for (int x = -3; x < 4; x++) {
-                for (int z = -3; z < 4; z++) {
-                    BlockPos crop_pos = new BlockPos(block_x + x, block_y + y, block_z + z);
-                    BlockState blockState = world.getBlockState(crop_pos);
-                    //Check if the block can grow
-                    if (blockState.getBlock() instanceof Fertilizable && !blockState.isOf(Blocks.GRASS_BLOCK)) {
-                        fertilizable.add(crop_pos);
-
-                    }
-                }
-            }
-        }
-        if (fertilizable.size() > 0) {
-            // Rand Particles main control - 'every 1/4 one second or so'
-            if (random.nextInt(3) < 1) {
-                /** Forced control, it will control the quickness of speed by deviding it by the size.
-                 * This makes sure that one plant isn't quickly grown, it's grown at the speed of the others, with a max.
-                 */
-                if (random.nextInt(((20 / fertilizable.size())+1)*10) < 1) {
-                    BlockPos crop_pos = fertilizable.get(ThreadLocalRandom.current().nextInt(fertilizable.size()));
-                    cropposafter = crop_pos;
-                    //DEBUG LINES - USED FOR BALANCING
-                    //System.out.println("I did a particle at " + crop_pos);
-                    successGrow = 1;
-                    // 1/11 chance of growing when rand particle happens
-                    if (!world.isClient && random.nextInt(10) < 1) {
-                        Fertilizable fertilizable1 = (Fertilizable) world.getBlockState(crop_pos).getBlock();
-                        fertilizable1.grow((ServerWorld) world, world.random, crop_pos, world.getBlockState(crop_pos));
-                        //System.out.println("I grew a thing at " + crop_pos);
-                    }
-                }
-            }
-        }
-    }
-
-    protected static void produceParticles(ParticleEffect parameters, World world, BlockPos parpos, float velocity) {
-        for(int i = 0; i < 5; ++i) {
-            double d = random.nextGaussian() * velocity;
-            double e = random.nextGaussian() * velocity;
-            double f = random.nextGaussian() * velocity;
-            world.addParticle(parameters, parpos.getX() + 0.5, parpos.getY() + 0.5, parpos.getZ() + 0.5, d, e, f);
-        }
-    }
-    protected static void produceParticles(ParticleEffect parameters, World world, BlockPos parpos, float velocityX, float velocityY, float velocityZ) {
-        for (int i = 0; i < 5; ++i) {
-            double d = random.nextGaussian() * velocityX;
-            double e = random.nextGaussian() * velocityY;
-            double f = random.nextGaussian() * velocityZ;
-            world.addParticle(parameters, parpos.getX() + 0.5, parpos.getY() + 0.5, parpos.getZ() + 0.5, d, e, f);
-        }
+        StatueTick.StatueTicker(world,pos,state,blockEntity);
     }
 
     @Override
